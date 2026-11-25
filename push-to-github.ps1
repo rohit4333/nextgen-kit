@@ -11,7 +11,7 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "User") + ";" +
 
 Set-Location $PSScriptRoot
 
-$repoName = 'nextgen-creative-kit'
+$repoName = 'nextgen-kit'
 
 # 1. authenticate (skipped when already signed in)
 gh auth status *> $null
