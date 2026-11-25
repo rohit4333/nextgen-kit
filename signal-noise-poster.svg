@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img" aria-label="Signal and Noise — a generative vector study poster">
+  <defs>
+    <radialGradient id="orb" cx="34%" cy="28%" r="78%">
+      <stop offset="0%"   stop-color="#FFE7B8"/>
+      <stop offset="18%"  stop-color="#FFA95C"/>
+      <stop offset="38%"  stop-color="#FF5A2B"/>
+      <stop offset="56%"  stop-color="#F2266E"/>
+      <stop offset="74%"  stop-color="#A62BE0"/>
+      <stop offset="92%"  stop-color="#4B1E9E"/>
+      <stop offset="100%" stop-color="#2A1460"/>
+    </radialGradient>
+
+    <radialGradient id="cool" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#4FE3FF" stop-opacity="0.85"/>
+      <stop offset="55%"  stop-color="#2AA8FF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#2AA8FF" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="paper" cx="50%" cy="42%" r="70%">
+      <stop offset="0%"   stop-color="#F6F2EB"/>
+      <stop offset="100%" stop-color="#E7E1D6"/>
+    </radialGradient>
+
+    <filter id="soften" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+    <filter id="soften2" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="46"/>
+    </filter>
+
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+
+    <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M100 0 L0 0 0 100" fill="none" stroke="#14141A" stroke-width="1" opacity="0.055"/>
+    </pattern>
+  </defs>
+
+  <!-- paper -->
+  <rect width="1200" height="1600" fill="url(#paper)"/>
+  <rect width="1200" height="1600" fill="url(#grid)"/>
+
+  <!-- ================= type zone ================= -->
+  <g font-family="'Helvetica Neue', 'Segoe UI', Arial, sans-serif" fill="#14141A">
+    <text x="90" y="300" font-size="208" font-weight="800" letter-spacing="-9">SIGNAL</text>
+    <text x="90" y="500" font-size="208" font-weight="800" letter-spacing="-9" fill="none" stroke="#14141A" stroke-width="2.5">&amp; NOISE</text>
+  </g>
+
+  <g font-family="'Cascadia Mono', Consolas, monospace" font-size="19" fill="#14141A" letter-spacing="3.5" opacity="0.62">
+    <text x="94" y="562">A GENERATIVE STUDY IN PURE VECTOR</text>
+    <text x="1106" y="562" text-anchor="end">001 / 2026</text>
+  </g>
+
+  <line x1="90" y1="592" x2="1110" y2="592" stroke="#14141A" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- ================= composition ================= -->
+  <g>
+    <!-- cool counter-light -->
+    <circle cx="792" cy="812" r="210" fill="url(#cool)" filter="url(#soften2)"/>
+
+    <!-- orbit guides -->
+    <circle cx="600" cy="915" r="430" fill="none" stroke="#14141A" stroke-width="1" opacity="0.10"/>
+    <circle cx="600" cy="915" r="362" fill="none" stroke="#14141A" stroke-width="1.2" opacity="0.30"/>
+    <circle cx="600" cy="915" r="296" fill="none" stroke="#14141A" stroke-width="2" stroke-dasharray="2 12" opacity="0.35"/>
+
+    <!-- the orb -->
+    <circle cx="600" cy="915" r="246" fill="url(#orb)" filter="url(#soften)"/>
+    <circle cx="600" cy="915" r="246" fill="none" stroke="#14141A" stroke-width="1.5" opacity="0.22"/>
+
+    <!-- specular arc -->
+    <path d="M 438 758 A 246 246 0 0 1 762 758" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.55" filter="url(#soften)"/>
+    <path d="M 452 742 A 230 230 0 0 1 748 742" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+
+    <!-- sweeping dark arc over the orb -->
+    <path d="M 214 828 A 400 400 0 0 1 986 828" fill="none" stroke="#14141A" stroke-width="2.5" opacity="0.55"/>
+    <circle cx="214" cy="828" r="5.5" fill="#14141A"/>
+    <circle cx="986" cy="828" r="5.5" fill="#14141A"/>
+
+    <!-- measurement ticks -->
+    <g stroke="#14141A" stroke-width="1.5" opacity="0.45">
+      <line x1="600" y1="470" x2="600" y2="500"/>
+      <line x1="600" y1="1330" x2="600" y2="1360"/>
+      <line x1="155" y1="915" x2="185" y2="915"/>
+      <line x1="1015" y1="915" x2="1045" y2="915"/>
+    </g>
+
+    <!-- satellite marker -->
+    <circle cx="896" cy="1160" r="9" fill="#14141A"/>
+    <circle cx="896" cy="1160" r="22" fill="none" stroke="#14141A" stroke-width="1" opacity="0.5"/>
+    <text x="932" y="1167" font-family="'Cascadia Mono', Consolas, monospace" font-size="16" letter-spacing="2" fill="#14141A" opacity="0.6">NODE 07</text>
+  </g>
+
+  <line x1="90" y1="1246" x2="1110" y2="1246" stroke="#14141A" stroke-width="1.5" opacity="0.25"/>
+
+  <!-- ================= caption zone ================= -->
+  <g font-family="'Helvetica Neue', 'Segoe UI', Arial, sans-serif" fill="#14141A">
+    <text x="90" y="1322" font-size="44" font-weight="600" letter-spacing="-0.5">No camera. No pixels.</text>
+    <text x="90" y="1378" font-size="44" font-weight="600" letter-spacing="-0.5" opacity="0.55">Only math, type &amp; light.</text>
+  </g>
+
+  <g font-family="'Cascadia Mono', Consolas, monospace" font-size="18" fill="#14141A" letter-spacing="2.4" opacity="0.55">
+    <text x="90" y="1496">SVG / 1200 x 1600</text>
+    <text x="600" y="1496" text-anchor="middle">DRAWN ENTIRELY IN CODE</text>
+    <text x="1110" y="1496" text-anchor="end">STUDY 01</text>
+  </g>
+
+  <!-- vertical side label -->
+  <text transform="translate(1150 1240) rotate(-90)" font-family="'Cascadia Mono', Consolas, monospace" font-size="15" letter-spacing="4.5" fill="#14141A" opacity="0.45">SIGNAL / NOISE — A STUDY IN VECTOR</text>
+
+  <!-- registration marks -->
+  <g stroke="#14141A" stroke-width="1.4" opacity="0.35">
+    <path d="M40 64 L40 40 L64 40"/>
+    <path d="M1136 40 L1160 40 L1160 64"/>
+    <path d="M1160 1536 L1160 1560 L1136 1560"/>
+    <path d="M64 1560 L40 1560 L40 1536"/>
+  </g>
+
+  <!-- grain -->
+  <rect width="1200" height="1600" filter="url(#grain)" opacity="0.055" style="mix-blend-mode:multiply"/>
+</svg>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Confidence — LinkedIn Carousel</title>
+<link rel="stylesheet" href="assets/poppins.css">
+<style>
+  /* ============================================================
+     SPEC: 1080 × 1080 · #0A192F navy · #E8E5DF stone · #C5A059 gold
+     Poppins only · 60px safe margin · 110px gold strip at y=970
+     ============================================================ */
+  :root{
+    --navy:#0A192F;
+    --stone:#E8E5DF;
+    --gold:#C5A059;
+    --ivory:#F8F5F2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#14161B}
+  body{font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+  .board{width:1332px;margin:0 auto;padding:48px 44px 72px}
+  .board-top{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid rgba(255,255,255,.14);padding-bottom:22px;margin-bottom:34px}
+  .board-top h1{color:#F1EDE6;font-size:26px;font-weight:700;letter-spacing:-.3px}
+  .board-top p{color:#9AA0AC;font-size:13px;margin-top:6px;letter-spacing:.2px}
+  .board-top .meta{font-size:11px;letter-spacing:.22em;color:#8E95A1;text-align:right;line-height:2}
+
+  .grid{display:grid;grid-template-columns:605px 605px;gap:26px 28px}
+  .plate-shadow{filter:drop-shadow(0 16px 34px rgba(0,0,0,.5))}
+  .viewport{width:605px;height:605px;overflow:hidden}
+  .viewport > .slide{transform:scale(.56);transform-origin:0 0}
+
+  /* ---------- slide base ---------- */
+  .slide{position:relative;width:1080px;height:1080px;background:var(--navy);color:var(--ivory);overflow:hidden;font-family:'Poppins',sans-serif}
+  .gold-dot{position:absolute;left:60px;top:60px;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+  .num{position:absolute;right:60px;top:64px;font-weight:300;font-size:16px;letter-spacing:.02em;color:rgba(248,245,242,.6);line-height:1}
+  .strip{position:absolute;left:0;top:970px;width:1080px;height:110px;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:18px;letter-spacing:.01em;text-align:center;padding:0 40px;line-height:1.35}
+
+  .h1{position:absolute;left:60px;font-weight:700;color:var(--ivory);letter-spacing:-.01em;line-height:1.1}
+  .sub{position:absolute;left:60px;font-weight:400;letter-spacing:.005em;line-height:1.5;color:var(--ivory)}
+
+  /* ---------- photo plates ---------- */
+  .photo img{display:block;width:100%;height:100%;object-fit:cover}
+
+  /* ---------- photo production slot ---------- */
+  .photo{position:absolute;left:60px;width:960px;border:2px solid var(--gold);border-radius:24px;background:#0C1D38;overflow:hidden}
+
+  /* ---------- slide 3 bullets ---------- */
+  .bullet{position:absolute;left:82px;font-size:24px;line-height:1.8;font-weight:400;color:var(--ivory)}
+  .bdot{position:absolute;left:60px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+  /* ---------- slide 4 ---------- */
+  .s4 .navy-panel{position:absolute;left:0;top:0;width:518px;height:970px;background:var(--navy)}
+  .s4 .stone-panel{position:absolute;left:518px;top:0;width:562px;height:970px;background:var(--stone)}
+  .s4 .rule{position:absolute;left:516px;top:0;width:6px;height:970px;background:var(--gold)}
+  .s4 .num{color:rgba(248,245,242,.78);text-shadow:0 1px 8px rgba(10,25,47,.55)}
+  .s4 .em{font-size:28px;font-weight:400;color:var(--ivory)}
+  .s4 .founder{position:absolute;left:522px;top:0;width:558px;height:970px;object-fit:cover;filter:saturate(.82) contrast(1.04)}
+  .s4 .scrim-top{position:absolute;left:522px;top:0;width:558px;height:180px;background:linear-gradient(180deg,rgba(10,25,47,.62),rgba(10,25,47,0))}
+  .s4 .scrim-btm{position:absolute;left:522px;top:700px;width:558px;height:270px;background:linear-gradient(0deg,rgba(10,25,47,.86),rgba(10,25,47,0))}
+  .s4 .credit{position:absolute;left:562px;top:836px;width:480px;color:var(--ivory)}
+  .s4 .credit b{display:block;font-weight:600;font-size:24px;letter-spacing:-.2px}
+  .s4 .credit span{display:block;font-family:'Poppins',sans-serif;font-weight:300;font-size:14px;letter-spacing:.16em;opacity:.7;margin-top:8px}
+
+  /* ---------- slide 6 ring ---------- */
+  .ring{position:absolute;left:700px;top:320px;width:280px;height:280px;border:4px solid var(--gold);border-radius:50%;background:var(--navy)}
+
+  /* ---------- export mode: #export = all 6 stacked, #s3 = single slide ---------- */
+  body.export{background:var(--navy)}
+  body.export .board{width:1080px;padding:0}
+  body.export .board-top,body.export .notes{display:none}
+  body.export .grid{display:block}
+  body.export .viewport{width:1080px;height:1080px;margin:0 0 24px}
+  body.export .viewport > .slide{transform:none}
+  body.export .plate-shadow{filter:none}
+  body.export.solo .board{width:1080px;padding:0}
+  body.export.solo .grid{display:block}
+  body.export.solo .plate-shadow{display:none;margin:0}
+  body.export.solo .plate-shadow.on{display:block}
+  body.export.solo .viewport{margin:0;width:1080px;height:1080px}
+
+  .notes{margin-top:34px;border-top:1px solid rgba(255,255,255,.14);padding-top:20px;color:#9AA0AC;font-size:12px;line-height:1.9;letter-spacing:.2px}
+  .notes b{color:#C9CED8;font-weight:500}
+  .notes span{color:#FF8A65}
+</style>
+</head>
+<body>
+
+<div class="board">
+  <div class="board-top">
+    <div>
+      <h1>The Quiet Confidence — premium LinkedIn carousel</h1>
+      <p>NextGen Academy · 6 slides · 1080 × 1080 · copy deck applied verbatim</p>
+    </div>
+    <div class="meta">POPPINS 300 / 400 / 500 / 700<br>#0A192F · #E8E5DF · #C5A059<br>60PX SAFE MARGIN</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- ============ SLIDE 1 — HOOK ============ -->
+    <div class="plate-shadow"><div class="viewport">
+      <section class="slide s1" aria-label="Slide 1 of 6">
+        <div class="gold-dot"></div>
+        <div class="num">1/6</div>
+
+        <h2 class="h1" style="top:180px;width:700px;font-size:56px">Is your child quietly falling behind in maths?</h2>
+        <p class="sub" style="top:360px;width:700px;font-size:28px;color:var(--gold)">It's not just a subject. It's their confidence.</p>
+
+        <div class="photo" style="top:480px;height:400px">
+          <img src="assets/photos/photo-01-hook.png" alt="Mother resting a hand on her daughter's shoulder at a homework desk">
+        </div>
+
+        <div class="strip">Swipe to see a different path →</div>
+      </section>
+    </div></div>
+
+    <!-- ============ SLIDE 2 — PROBLEM ============ -->
+    <div class="plate-shadow"><div class="viewport">
+      <section class="slide s2" aria-label="Slide 2 of 6">
+        <div class="gold-dot"></div>
+        <div class="num">2/6</div>
+
+        <h2 class="h1" style="top:170px;width:720px;font-size:52px">Everyone is so fast.<br>Why am I slow?</h2>
+        <p class="sub" style="top:330px;width:720px;font-size:26px;color:rgba(248,245,242,.8)">In crowded classes, bright kids get lost trying to keep up.</p>
+
+        <div class="photo" style="top:460px;height:420px">
+          <img src="assets/photos/photo-02-problem.png" alt="Girl alone at a desk in a crowded classroom">
+        </div>
+
+        <div class="strip">The problem isn't their ability. It's the environment.</div>
+      </section>
+    </div></div>
+
+    <!-- ============ SLIDE 3 — SOLUTION ============ -->
+    <div class="plate-shadow"><div class="viewport">
+      <section class="slide s3" aria-label="Slide 3 of 6">
+        <div class="gold-dot"></div>
+        <div class="num">3/6</div>
+
+        <h2 class="h1" style="top:150px;width:720px;font-size:52px">1-on-1. Online. Built around your child.</h2>
+        <p class="sub" style="top:290px;width:720px;font-size:26px;color:rgba(248,245,242,.8)">Where they can ask questions without feeling judged.</p>
+
+        <i class="bdot" style="top:390px"></i><div class="bullet" style="top:380px;width:600px">Undivided attention</div>
+        <i class="bdot" style="top:440px"></i><div class="bullet" style="top:430px;width:600px">Paced to their speed</div>
+        <i class="bdot" style="top:490px"></i><div class="bullet" style="top:480px;width:600px">Confidence rebuilt</div>
+
+        <div class="photo" style="top:560px;height:320px">
+          <img src="assets/photos/photo-03-solution.png" alt="Girl at a laptop wearing headphones during a one-to-one lesson">
+        </div>
+
+        <div class="strip">Every child deserves to be heard.</div>
+      </section>
+    </div></div>
+
+    <!-- ============ SLIDE 4 — TRUST (SPLIT) ============ -->
+    <div class="plate-shadow"><div class="viewport">
+      <section class="slide s4" aria-label="Slide 4 of 6">
+        <div class="navy-panel"></div>
+        <div class="stone-panel"></div>
+        <div class="rule"></div>
+        <img class="founder" src="assets/photos/portrait-founders.png" alt="Rohit Vishwakarma, founder of NextGen Academy">
+        <div class="scrim-top"></div>
+        <div class="scrim-btm"></div>
+        <div class="num">4/6</div>
+        <div class="credit"><b>Rohit Vishwakarma</b><span>B.TECH &amp; M.TECH · IIIT-A</span></div>
+
+        <h2 class="h1" style="top:180px;left:60px;width:400px;font-size:48px">Education is a family concern.</h2>
+        <p class="sub" style="top:340px;left:60px;width:400px;font-size:24px"><span class="em">I'm Rohit.</span> I don't just teach maths; I take accountability for your child's progress.</p>
+
+        <div class="strip">Patient. Personal. Accountable.</div>
+      </section>
+    </div></div>
+
+    <!-- ============ SLIDE 5 — TRANSFORMATION ============ -->
+    <div class="plate-shadow"><div class="viewport">
+      <section class="slide s5" aria-label="Slide 5 of 6">
+        <div class="gold-dot"></div>
+        <div class="num">5/6</div>
+
+        <h2 class="h1" style="top:160px;width:720px;font-size:54px">The shift parents notice first.</h2>
+        <p class="sub" style="top:310px;width:720px;font-size:26px;color:rgba(248,245,242,.8)">Not just better grades.<br>A child who feels confident, capable, and heard.</p>
+
+        <div class="photo" style="top:430px;height:450px">
+          <img src="assets/photos/photo-04-transformation.png" alt="Parent and child working together at a table">
+        </div>
+
+        <div class="strip">Confidence changes everything.</div>
+      </section>
+    </div></div>
+
+    <!-- ============ SLIDE 6 — CTA ============ -->
+    <div class="plate-shadow"><div class="viewport">
+      <section class="slide s6" aria-label="Slide 6 of 6">
+        <div class="gold-dot"></div>
+        <div class="num">6/6</div>
+
+        <h2 class="h1" style="top:170px;width:600px;font-size:56px">Let's explore maths together.</h2>
+        <p class="sub" style="top:340px;width:600px;font-size:26px;line-height:1.6;color:rgba(248,245,242,.85)">Book a FREE 30-minute individual class.<br>No pressure.<br>Just a conversation.</p>
+
+        <div class="ring"></div>
+
+        <div class="strip">Message me or tap Learn more below.</div>
+      </section>
+    </div></div>
+
+  </div>
+
+  <div class="notes">
+    <b>Build notes.</b>
+    Photos are 960 × 400 crops taken from your generated 1024² slides; each band was OCR-checked to contain zero baked-in text, so no copy doubles up.
+    Slide 4 now carries your portrait full-bleed against the gold rule, credited with the real qualification (B.Tech &amp; M.Tech, IIIT-A).
+    <span>Pricing removed everywhere</span> — no session rates, no currency, no packages. The only offer left is the free demo.
+    Type is real Poppins (300/400/500/700) embedded as base64 woff2, so exports never fall back.
+    Open this file with <b>#export</b> appended to the URL to get unscaled 1080² slides for screenshots.
+  </div>
+</div>
+
+<script>
+  (function () {
+    var h = location.hash;
+    if (h === '#export') { document.body.classList.add('export'); return; }
+    var m = /^#s([1-6])$/.exec(h);
+    if (m) {
+      document.body.classList.add('export', 'solo');
+      var plates = document.querySelectorAll('.plate-shadow');
+      if (plates[m[1] - 1]) plates[m[1] - 1].classList.add('on');
+    }
+  })();
+</script>
+</body>
+</html>

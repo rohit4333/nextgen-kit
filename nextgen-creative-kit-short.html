@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Er. Rohit Vishwakarma — Creative Kit</title>
+<style>
+  :root{
+    --ink:#0E1420;
+    --ink-2:#16203A;
+    --cream:#F6F1E7;
+    --paper:#FDFAF3;
+    --coral:#FF5B2E;
+    --coral-2:#FFB59C;
+    --teal:#12968C;
+    --gold:#E9B44C;
+    --muted:#7B7468;
+    --line:rgba(14,20,32,.16);
+    --line-2:rgba(14,20,32,.08);
+    --mono:'Cascadia Mono',Consolas,'Courier New',monospace;
+    --sans:'Segoe UI Variable Display','Segoe UI',Helvetica,Arial,sans-serif;
+    --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  /* ---------- whitish, sunlit board ---------- */
+  body{
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1000px 700px at 5% -12%, #FFE1C8 0%, rgba(255,225,200,0) 62%),
+      radial-gradient(820px 560px at 104% -2%, #D9EDE5 0%, rgba(217,237,229,0) 60%),
+      radial-gradient(1200px 900px at 50% 122%, #F8E4CB 0%, rgba(248,228,203,0) 64%),
+      linear-gradient(180deg,#FEFAF3 0%,#F8F1E5 100%);
+    background-attachment:fixed;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:var(--noise);background-size:200px 200px;
+    opacity:.09;mix-blend-mode:multiply;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(14,20,32,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(14,20,32,.05) 1px,transparent 1px);
+    background-size:86px 86px;
+    -webkit-mask-image:radial-gradient(120% 86% at 50% 0%,#000 26%,transparent 88%);
+    mask-image:radial-gradient(120% 86% at 50% 0%,#000 26%,transparent 88%);
+  }
+  .board{position:relative;z-index:1;width:1760px;margin:0 auto;padding:60px 44px 96px}
+
+  /* ---------- board chrome ---------- */
+  .board-head{display:flex;justify-content:space-between;align-items:flex-end;gap:44px;padding-bottom:24px;border-bottom:1.5px solid rgba(14,20,32,.18)}
+  .eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12.5px;letter-spacing:3.4px;color:var(--coral);margin-bottom:18px}
+  .eyebrow::before{content:"";width:38px;height:2px;background:var(--coral)}
+  .board-head h2{font-size:58px;font-weight:750;letter-spacing:-2.4px;line-height:.98;color:var(--ink)}
+  .board-head h2 em{font-style:normal;color:var(--coral)}
+  .board-head p{color:#6E685D;font-size:17px;margin-top:16px;letter-spacing:.1px}
+  .tag{font-family:var(--mono);font-size:12.5px;color:#847C6E;letter-spacing:2.2px;text-align:right;line-height:2.1;white-space:nowrap}
+  .tag b{color:var(--ink);font-weight:600}
+
+  .spec-strip{display:flex;border-bottom:1px solid rgba(14,20,32,.14);margin-bottom:50px}
+  .spec-strip div{flex:1;padding:18px 22px;border-right:1px solid rgba(14,20,32,.1);font-family:var(--mono);font-size:11.5px;letter-spacing:2.4px;color:#8A8175}
+  .spec-strip div:last-child{border-right:0}
+  .spec-strip b{display:block;color:var(--ink);font-family:var(--sans);font-size:20px;letter-spacing:-.5px;font-weight:650;margin-top:7px}
+  .spec-strip .hot b{color:var(--coral)}
+
+  .sec{margin-top:66px}
+  .sec-label{font-family:var(--mono);font-size:13px;letter-spacing:3px;color:#3A3833;border-left:3px solid var(--coral);padding-left:14px;margin-bottom:26px;display:flex;gap:16px;align-items:center}
+  .sec-label em{font-style:normal;color:#8A8275;letter-spacing:.3px;text-transform:none;font-family:var(--sans);font-size:14.5px}
+
+  /* ---------- fit wrappers ---------- */
+  .fit{position:relative;overflow:hidden;border-radius:4px;background:#0E1420;
+    box-shadow:0 1px 2px rgba(30,20,10,.12),0 24px 48px -18px rgba(58,40,20,.48);
+    transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .fit:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(30,20,10,.12),0 34px 60px -20px rgba(58,40,20,.55)}
+  .fit>div{transform-origin:0 0}
+  .row{display:flex;flex-wrap:wrap;gap:26px}
+  .row.tight{gap:12px}
+
+  /* ---------- slide base ---------- */
+  .slide{position:relative;overflow:hidden;isolation:isolate;font-family:var(--sans);display:flex;flex-direction:column}
+  .sq{width:1080px;height:1080px;padding:82px 78px}
+  .vert{width:1080px;height:1920px;padding:96px 78px}
+
+  .kicker{font-family:var(--mono);font-size:21px;letter-spacing:4px;opacity:.62;margin-bottom:32px}
+  .h1{font-size:104px;line-height:.95;letter-spacing:-4.6px;font-weight:750}
+  .h1.sm{font-size:82px;letter-spacing:-3.4px;line-height:.98}
+  .h1 em{font-style:normal;color:var(--coral)}
+  .h1 .dim{opacity:.36}
+  .body{font-size:33px;line-height:1.42;letter-spacing:-.4px;opacity:.78;margin-top:34px;max-width:820px}
+  .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:20px;font-family:var(--mono);font-size:19px;letter-spacing:2.4px;opacity:.55;border-top:1px solid var(--line);padding-top:22px}
+
+  .dark{background:var(--ink);color:var(--cream)}
+  .dark .foot{border-top-color:rgba(246,241,231,.2)}
+  .light{background:var(--paper);color:var(--ink)}
+  .cream{background:var(--cream);color:var(--ink)}
+
+  /* print grain on every frame */
+  .slide::after,.frame::after{
+    content:"";position:absolute;inset:0;z-index:9;pointer-events:none;
+    background-image:var(--noise);background-size:200px 200px;
+    opacity:.32;mix-blend-mode:soft-light;
+  }
+
+  .chip{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:16px;letter-spacing:2px;border:1.2px solid rgba(14,20,32,.3);padding:10px 15px;border-radius:2px;background:rgba(255,255,255,.55)}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--coral);display:block}
+  /* ---------- S1 : the fear ---------- */
+  .s1{background:radial-gradient(120% 100% at 78% 0%,#1B2744 0%,#0E1420 58%);padding:82px 60px 82px 220px}
+  .s1-rings{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .s1-rings span{position:absolute;border:1px solid rgba(246,241,231,.12);border-radius:50%}
+  .s1-rings span:nth-child(1){width:720px;height:720px;right:-300px;top:-280px}
+  .s1-rings span:nth-child(2){width:510px;height:510px;right:-190px;top:-170px;border-color:rgba(246,241,231,.09)}
+  .s1-rings span:nth-child(3){width:300px;height:300px;right:-80px;top:-64px;border-color:rgba(255,91,46,.34)}
+  .s1-glow{position:absolute;width:940px;height:940px;right:-360px;bottom:-420px;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,91,46,.17) 0%,rgba(255,91,46,0) 62%)}
+  .s1 .accent{position:absolute;left:220px;bottom:300px;width:112px;height:6px;background:var(--coral)}
+  .s1 .body{position:absolute;left:220px;bottom:176px;margin:0;font-size:29px;max-width:500px;line-height:1.45}
+  .s1-art{position:absolute;right:40px;bottom:340px;width:360px;height:285px}
+
+  /* ---------- S2 : the why ---------- */
+  .s2{background:linear-gradient(180deg,#F8F3E9 0%,#F4EDE0 100%)}
+  .s2 ol{list-style:none;margin-top:40px;counter-reset:r}
+  .s2 li{counter-increment:r;display:flex;gap:24px;padding:23px 0;border-top:1px solid var(--line);font-size:30px;line-height:1.35;letter-spacing:-.3px}
+  .s2 li:last-child{border-bottom:1px solid var(--line)}
+  .s2 li::before{content:"0" counter(r);font-family:var(--mono);font-size:19px;letter-spacing:1px;color:var(--coral);padding-top:8px;min-width:50px}
+  .chart{width:100%;height:168px;display:block;margin-top:26px}
+  .s2 .body{font-size:27px;margin-top:20px}
+
+  /* ---------- S3 : the fix ---------- */
+  .s3{background:var(--paper)}
+  .s3-diagram{display:flex;align-items:stretch;gap:18px;margin-top:34px}
+  .s3-panel{flex:1;border:1.2px solid rgba(14,20,32,.18);background:rgba(14,20,32,.035);padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+  .s3-panel.alt{background:#fff;border-color:rgba(255,91,46,.55);box-shadow:7px 7px 0 rgba(255,91,46,.15)}
+  .s3-h{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:13.5px;letter-spacing:1.8px;color:#7C7568}
+  .s3-f{font-family:var(--mono);font-size:13.5px;letter-spacing:1.6px;color:#8B8375;margin-top:auto}
+  .class{display:flex;align-items:center;justify-content:center;gap:26px;margin:2px 0 4px}
+  .dots{display:grid;grid-template-columns:repeat(6,32px);gap:14px;flex:none}
+  .dots i{width:32px;height:32px;border-radius:50%;background:rgba(14,20,32,.17)}
+  .dots i.kid{background:var(--coral);position:relative;z-index:1}
+  .dots i.kid::after{content:"";position:absolute;inset:-7px;border:1.5px dashed var(--coral);border-radius:50%}
+  .tutor{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .tutor .tsq{width:48px;height:48px;border-radius:5px;background:var(--ink);color:var(--cream);display:grid;place-items:center;font-family:var(--mono);font-size:18px;font-weight:700}
+  .tutor em{font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:1.6px;color:#8B8375;white-space:nowrap}
+  .vs{align-self:center;font-family:var(--mono);font-size:14px;letter-spacing:2px;color:#9A9183;padding:0 2px}
+  .orbit{display:grid;place-items:center}
+  .orbit svg{width:240px;height:216px;display:block}
+  .orbit text{font-family:var(--mono);font-weight:700}
+  .s3 .body{font-size:25px;margin-top:22px}
+  .s3 .chips{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .s3-scope{display:flex;align-items:baseline;gap:14px;margin-top:18px;
+    font-family:var(--mono);font-size:15px;letter-spacing:1.7px;color:#6E685D}
+  .s3-scope span{font-size:12.5px;letter-spacing:2.6px;color:var(--coral)}
+  .s3-scope b{font-weight:400;color:rgba(14,20,32,.3)}
+
+  /* ---------- S4 : the tutor ---------- */
+  .s4{background:linear-gradient(180deg,#F8F3E9 0%,#F2EADC 100%)}
+  .s4-card{position:relative;display:flex;margin-top:34px;height:612px;background:radial-gradient(110% 140% at 80% 0%,#1C2946 0%,#0E1420 62%);color:var(--cream);overflow:hidden}
+  .s4-card::before{content:"";position:absolute;left:0;top:0;width:10px;height:100%;background:var(--coral)}
+  .s4-info{width:55%;padding:40px 36px 78px 44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:2}
+  .s4-k{font-family:var(--mono);font-size:13px;letter-spacing:2.6px;color:rgba(246,241,231,.55)}
+  .s4-name{font-size:44px;font-weight:740;letter-spacing:-1.4px;margin-top:12px;line-height:1.02}
+  .s4-cred{margin-top:10px}
+  .s4-c{display:block;font-family:var(--mono);font-size:11px;letter-spacing:2.4px;color:rgba(246,241,231,.52)}
+  .s4-v{display:block;font-size:33px;font-weight:800;letter-spacing:-1.3px;line-height:1.08;margin-top:1px}
+  .s4-v.teal{color:#48CFC2}
+  .s4-v.coral{color:#FF7A52}
+  .s4-v.steel{color:#8CB4DE}
+  .s4-body{font-size:21px;line-height:1.45;letter-spacing:-.2px;color:rgba(246,241,231,.72);margin-top:20px;max-width:420px}
+  .s4-note{font-family:var(--mono);font-size:13px;letter-spacing:1.8px;color:rgba(246,241,231,.5);margin-top:16px;line-height:1.9;border-top:1px solid rgba(246,241,231,.16);padding-top:16px;max-width:420px}
+  .s4-figwrap{position:absolute;right:0;top:0;bottom:0;width:45%;z-index:1}
+  .s4-glow{position:absolute;right:-92px;top:-110px;width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(104,146,198,.32) 0%,rgba(104,146,198,.11) 44%,rgba(104,146,198,0) 70%);
+    filter:blur(28px);pointer-events:none}
+  .s4-photo{position:absolute;right:0;top:0;height:100%;width:auto;
+    filter:drop-shadow(0 20px 34px rgba(0,0,0,.55)) saturate(.97) contrast(1.02)}
+  .s4-figwrap::after{content:"";position:absolute;left:0;right:0;bottom:0;height:96px;
+    background:linear-gradient(180deg,rgba(14,20,32,0) 0%,#0E1420 90%)}
+  .s4-stamp{position:absolute;bottom:30px;left:44px;z-index:3;transform:rotate(-7deg);
+    font-family:var(--mono);font-size:13px;letter-spacing:1.6px;color:var(--coral);
+    background:var(--paper);border:2px solid var(--coral);padding:8px 12px;
+    box-shadow:3px 3px 0 rgba(14,20,32,.28);white-space:nowrap}
+
+  /* ---------- S5 : the demo ---------- */
+  .s5{background:var(--paper)}
+  .s5 ol{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:18px}
+  .s5 li{display:flex;gap:20px;font-size:26px;line-height:1.35;align-items:flex-start}
+  .s5 li span{font-family:var(--mono);font-size:16px;color:var(--coral);padding-top:5px;letter-spacing:1px}
+  .ticket{display:flex;align-items:center;gap:24px;border:1.5px solid rgba(14,20,32,.24);background:#fff;padding:20px 26px;margin-top:28px;position:relative;box-shadow:6px 6px 0 rgba(14,20,32,.06)}
+  .ticket .big{font-size:66px;font-weight:780;letter-spacing:-3.5px;line-height:.8;display:flex;align-items:baseline;gap:8px}
+  .ticket .big small{font-size:19px;font-weight:650;letter-spacing:2px;font-family:var(--mono)}
+  .ticket .meta{font-family:var(--mono);font-size:13px;letter-spacing:1.8px;line-height:1.9;color:#7C7568;border-left:1px dashed rgba(14,20,32,.28);padding-left:24px}
+  .seal{margin-left:auto;width:84px;height:84px;border-radius:50%;border:2px dashed rgba(255,91,46,.85);display:grid;place-items:center;font-family:var(--mono);font-size:11px;letter-spacing:1.4px;color:var(--coral);text-align:center;line-height:1.35;transform:rotate(-8deg)}
+  .s5-after{font-family:var(--mono);font-size:14px;letter-spacing:1.9px;color:#8B8375;margin-top:24px;line-height:1.95}
+
+  /* ---------- S6 : the single action ---------- */
+  .s6{background:radial-gradient(110% 92% at 18% 0%,#1A2742 0%,#0E1420 60%)}
+  .s6 .dots-bg{position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(246,241,231,.16) 1.2px,transparent 1.2px);
+    background-size:26px 26px;opacity:.5;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 72%);
+    mask-image:linear-gradient(180deg,#000 0%,transparent 72%)}
+  .s6 .ghost{position:absolute;right:44px;top:300px;font-size:290px;font-weight:800;letter-spacing:-16px;line-height:.8;color:rgba(246,241,231,.05);pointer-events:none}
+  .s6 .h1{font-size:116px;line-height:.94;letter-spacing:-4.4px}
+  .s6 .body{font-size:31px;margin-top:30px}
+  .s6 .btn{font-size:38px;padding:28px 44px;margin-top:44px}
+  .s6 .btn svg{width:36px;height:36px}
+  .s6 .risk{margin-top:32px}
+  .s6 .risk span{font-size:15px;letter-spacing:2px;padding:11px 15px}
+  .s6-micro{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .s6-micro span{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:13px;
+    letter-spacing:1.9px;color:rgba(246,241,231,.8);border:1px dashed rgba(255,91,46,.55);padding:9px 13px;border-radius:2px}
+  .s6-micro span::before{content:"";width:6px;height:6px;background:var(--coral);border-radius:1px;display:block}
+  .s6-micro b{color:var(--coral);font-weight:600}
+  .s6-cta{display:flex;flex-direction:column;gap:10px;background:var(--coral);color:#180A04;padding:34px 46px 32px;margin-top:48px;border-radius:3px;box-shadow:8px 8px 0 rgba(246,241,231,.14);width:fit-content}
+  .s6-cta .lbl{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:3px;color:#fff}
+  .s6-cta .num{font-family:var(--mono);font-size:56px;font-weight:600;letter-spacing:1px;line-height:1}
+  .risk{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+  .risk span{font-family:var(--mono);font-size:14px;letter-spacing:1.8px;color:rgba(246,241,231,.6);border:1px solid rgba(246,241,231,.22);padding:9px 13px}
+  /* ---------- LinkedIn 1200² ---------- */
+  .li{width:1200px;height:1200px;background:var(--paper);color:var(--ink);padding:70px;display:grid;grid-template-columns:390px 1fr;gap:52px;align-items:start;position:relative}
+  .li-fig{position:relative;height:390px;background:radial-gradient(110% 140% at 70% 0%,#1C2946 0%,#0E1420 66%);overflow:hidden;box-shadow:12px 12px 0 var(--coral)}
+  .li-fig svg{position:absolute;left:-6%;bottom:-8%;width:112%;height:112%}
+  .li-figcap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:rgba(246,241,231,.5);z-index:2}
+  .li .k{font-family:var(--mono);font-size:17px;letter-spacing:3.2px;color:#8B8375;margin-bottom:18px}
+  .li h1{font-size:70px;line-height:1.02;letter-spacing:-3.2px;font-weight:760}
+  .li h1 em{font-style:normal;color:var(--coral)}
+  .li p{font-size:27px;line-height:1.46;margin-top:22px;opacity:.78;letter-spacing:-.2px}
+  .li .sig{position:absolute;left:70px;bottom:64px;right:70px;display:flex;justify-content:space-between;align-items:flex-end;font-size:24px;border-top:1px solid rgba(14,20,32,.16);padding-top:20px}
+  .li .sig b{display:block;font-size:26px;letter-spacing:-.3px}
+  .li .sig span{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:#8B8375}
+  .li .cta{font-family:var(--mono);font-size:18px;letter-spacing:1.8px;color:var(--coral);text-align:right;line-height:1.6}
+
+  /* ---------- banner ---------- */
+  .banner{width:1584px;height:396px;color:var(--cream);position:relative;overflow:hidden;padding:52px 64px;display:flex;flex-direction:column;justify-content:center;
+    background:radial-gradient(120% 150% at 88% 0%,#1C2A47 0%,#0E1420 62%)}
+  .banner::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:var(--noise);background-size:200px 200px;opacity:.3;mix-blend-mode:soft-light}
+  .banner h1{font-size:62px;letter-spacing:-2.6px;line-height:1;font-weight:760;max-width:790px;position:relative;z-index:2}
+  .banner p{font-size:24px;opacity:.62;margin-top:16px;letter-spacing:-.2px;position:relative;z-index:2}
+  .banner .meta{position:absolute;right:64px;top:44px;font-family:var(--mono);font-size:14px;letter-spacing:3px;opacity:.5;text-align:right;line-height:2;z-index:3}
+  .bcurve{position:absolute;right:8px;top:18px;height:360px;width:auto;opacity:.95}
+  .banner .badge{position:absolute;right:66px;bottom:44px;z-index:3;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:2.4px;color:rgba(246,241,231,.7)}
+  .banner .badge i{width:8px;height:8px;border-radius:50%;background:var(--coral);display:block}
+
+  /* ---------- reel frames ---------- */
+  .frame{width:1080px;height:1920px;position:relative;overflow:hidden;color:var(--cream);padding:104px 74px 96px;display:flex;flex-direction:column;isolation:isolate}
+  .frame .tc{font-family:var(--mono);font-size:21px;letter-spacing:3px;opacity:.55;display:flex;justify-content:space-between;position:relative;z-index:2}
+  .frame .who{font-family:var(--mono);font-size:18px;letter-spacing:3px;opacity:.45;margin-top:22px;position:relative;z-index:2}
+  .frame .line{font-size:72px;line-height:1.06;letter-spacing:-2.6px;font-weight:740;margin-top:auto;position:relative;z-index:2}
+  .frame .line em{font-style:normal;color:var(--coral)}
+  .frame .shot{font-family:var(--mono);font-size:16px;letter-spacing:1.5px;opacity:.42;line-height:1.75;margin-top:32px;border-top:1px solid rgba(255,255,255,.16);padding-top:20px;position:relative;z-index:2}
+  .frame .safe{position:absolute;left:56px;right:56px;top:82px;bottom:82px;border:1px dashed rgba(255,255,255,.13);pointer-events:none;z-index:1}
+  .frame .scene{position:absolute;left:50%;transform:translateX(-50%);top:470px;width:700px;height:560px;z-index:1}
+  .frame .scene svg{width:100%;height:100%}
+  .frame .prog{position:absolute;left:0;bottom:0;height:7px;background:var(--coral);width:calc(var(--n) * 1%);z-index:3}
+  .frame .bignum{position:absolute;right:10px;top:470px;font-size:420px;font-weight:800;letter-spacing:-24px;line-height:.8;color:rgba(246,241,231,.035);z-index:0}
+  .dots-fill{position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(246,241,231,.16) 1.2px,transparent 1.2px);
+    background-size:32px 32px;opacity:.45;
+    -webkit-mask-image:radial-gradient(72% 54% at 50% 42%,#000,transparent 80%);
+    mask-image:radial-gradient(72% 54% at 50% 42%,#000,transparent 80%)}
+
+  .g1{background:radial-gradient(120% 90% at 20% 15%,#22304F 0%,#0E1420 62%)}
+  .g2{background:radial-gradient(110% 80% at 80% 20%,#3A2233 0%,#140F16 65%)}
+  .g3{background:linear-gradient(160deg,#101B33 0%,#0B0F18 60%,#1B1024 100%)}
+  .g4{background:radial-gradient(90% 70% at 50% 35%,#1D3B38 0%,#0B1211 70%)}
+  .g5{background:radial-gradient(100% 80% at 50% 20%,#2A1F3D 0%,#100C18 70%)}
+  .g6{background:radial-gradient(100% 80% at 70% 10%,#12353B 0%,#0A1214 70%)}
+  .g7{background:radial-gradient(110% 90% at 50% 30%,#3A2A18 0%,#120D08 70%)}
+  .g8{background:var(--ink)}
+  .frame.note{background:#F6F1E7;color:var(--ink)}
+  .frame.note .shot{border-top-color:rgba(14,20,32,.2)}
+  .frame.note .safe{border-color:rgba(14,20,32,.14)}
+  .frame.note .bignum{color:rgba(14,20,32,.04)}
+  .note .line{font-size:62px}
+
+  /* ---------- reel S6 — the tutor: credibility poster ---------- */
+  .s6-scene{width:932px!important;height:620px!important}
+  .s6-card{position:relative;width:100%;height:100%;overflow:hidden;
+    border:1px solid rgba(246,241,231,.13);
+    background:radial-gradient(132% 168% at 86% -10%,#1B4A50 0%,#0C171A 56%,#070E10 100%)}
+  .s6-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--coral);z-index:7}
+  .s6-glow{position:absolute;right:-140px;top:-170px;width:580px;height:580px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,91,46,.22) 0%,rgba(255,91,46,0) 68%);filter:blur(24px)}
+  .s6-glow2{position:absolute;left:-170px;bottom:-180px;width:540px;height:540px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(23,163,152,.26) 0%,rgba(23,163,152,0) 68%);filter:blur(26px)}
+
+  /* vector symbol field — imported sprite glyphs, out of focus, behind everything */
+  .s6-sym{position:absolute;pointer-events:none;z-index:1;color:rgba(246,241,231,.15);opacity:.85}
+  .s6-sym.hot{color:rgba(255,91,46,.30)}
+  .s6-sym.cool{color:rgba(79,209,197,.26)}
+  .s6-ghost{position:absolute;z-index:0;pointer-events:none;white-space:nowrap;
+    font-family:var(--sans);font-weight:800;letter-spacing:-8px;color:rgba(246,241,231,.05)}
+  .s6-frag{position:absolute;z-index:1;pointer-events:none;white-space:nowrap;
+    font-family:var(--mono);font-size:16px;letter-spacing:1.4px;color:rgba(246,241,231,.16)}
+  .s6-tick{position:absolute;width:22px;height:22px;border:1px solid rgba(255,91,46,.5);z-index:6;pointer-events:none}
+  .s6-tick.tl{left:14px;top:14px;border-right:0;border-bottom:0}
+  .s6-tick.br{right:-1px;bottom:-1px;border-left:0;border-top:0}
+
+  /* the portrait: tall, blended into the panel, cool rim light */
+  .s6-photo{position:absolute;right:2px;bottom:20px;width:424px;height:572px;z-index:3;pointer-events:none}
+  .s6-photo .rim{position:absolute;left:6px;top:34px;width:344px;height:344px;border-radius:50%;
+    background:radial-gradient(circle,rgba(23,163,152,.34) 0%,rgba(255,91,46,.14) 52%,rgba(7,14,16,0) 74%);
+    filter:blur(30px)}
+  .s6-photo img{position:relative;width:100%;height:100%;object-fit:contain;object-position:50% 100%;
+    filter:drop-shadow(0 26px 44px rgba(0,0,0,.6)) saturate(1.04) contrast(1.02);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 84%,rgba(0,0,0,0) 100%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 84%,rgba(0,0,0,0) 100%)}
+
+  /* left editorial column */
+  .s6-left{position:absolute;left:36px;top:28px;width:512px;bottom:38px;z-index:4;
+    display:flex;flex-direction:column}
+  .s6-fig{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:3.2px;text-transform:uppercase;color:rgba(255,181,156,.92)}
+  .s6-fig:before{content:"";width:24px;height:1px;background:var(--coral);flex:0 0 auto}
+  .s6-name{margin-top:15px;font-weight:780;letter-spacing:-1.6px;line-height:.94;color:var(--cream)}
+  .s6-name span{display:block;font-size:33px;letter-spacing:2.6px;font-weight:600;color:rgba(246,241,231,.78)}
+  .s6-name b{display:block;font-size:52px;font-weight:820;letter-spacing:-1.8px;margin-top:3px}
+
+  .s6-cred{margin-top:10px;padding-top:8px;border-top:1px solid rgba(246,241,231,.14)}
+  .s6-lab{display:block;font-family:var(--mono);font-size:11px;letter-spacing:3.1px;color:rgba(246,241,231,.52)}
+  .s6-big{display:block;font-size:58px;font-weight:830;letter-spacing:-2.8px;line-height:1.04;
+    margin-top:1px;white-space:nowrap}
+  .s6-big.teal{color:#48CFC2;text-shadow:0 0 34px rgba(23,163,152,.34)}
+  .s6-big.coral{color:#FF8055;text-shadow:0 0 34px rgba(255,91,46,.3)}
+  .s6-big.steel{color:#8CB4DE;text-shadow:0 0 34px rgba(96,148,208,.3)}
+
+  .s6-note{margin-top:12px;font-size:16.5px;line-height:1.42;letter-spacing:.1px;color:rgba(246,241,231,.62);max-width:470px}
+  .s6-tags{margin-top:auto;padding-top:16px;border-top:1px solid rgba(246,241,231,.12);
+    display:flex;flex-wrap:wrap;gap:7px}
+  .s6-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:2.2px;padding:5px 9px;white-space:nowrap;
+    border:1px solid rgba(246,241,231,.2);color:rgba(246,241,231,.72);background:rgba(246,241,231,.05)}
+
+  .phone{margin-top:40px;border:2px solid rgba(246,241,231,.22);border-radius:46px;padding:16px;background:rgba(255,255,255,.03);position:relative;z-index:2}
+  .phone .notch{position:absolute;left:50%;top:16px;transform:translateX(-50%);width:120px;height:10px;border-radius:6px;background:rgba(246,241,231,.18)}
+  .chat{background:#0B111C;border-radius:32px;padding:44px 26px 26px;display:flex;flex-direction:column;gap:14px;font-size:27px}
+  .chat .b{max-width:78%;padding:18px 24px;border-radius:22px;line-height:1.35}
+  .chat .in{background:rgba(255,255,255,.09);align-self:flex-start;border-bottom-left-radius:6px}
+  .chat .out{background:var(--teal);color:#06201E;align-self:flex-end;border-bottom-right-radius:6px;font-weight:600}
+  .ch-head{display:flex;align-items:center;gap:10px;padding:0 2px 14px;border-bottom:1px solid rgba(246,241,231,.1)}
+  .ch-head i{width:9px;height:9px;border-radius:50%;background:#37E0A0;box-shadow:0 0 10px rgba(55,224,160,.8);flex:0 0 auto}
+  .ch-head b{font-family:var(--mono);font-size:15px;letter-spacing:1.6px;font-weight:600;color:rgba(246,241,231,.82)}
+  .ch-head span{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:2.2px;color:rgba(246,241,231,.42)}
+  .ch-day{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:2.6px;
+    color:rgba(246,241,231,.32);margin:4px 0 2px}
+
+  .cap{color:#6E685D;font-size:14.5px;line-height:1.55;margin-top:12px;letter-spacing:.1px}
+  .cap b{display:block;color:var(--ink);font-size:15.5px;letter-spacing:.2px;margin-bottom:5px;font-weight:650}
+  .reel-item{width:196px}
+
+  /* ---------- reel motion v2 — Instagram-safe 1080×1920 ---------- */
+  .motion-link{margin-left:14px;font-family:var(--mono);font-size:11px;letter-spacing:1.8px;color:#180A04;
+    background:var(--coral);padding:5px 10px;border-radius:2px;text-decoration:none;vertical-align:2px}
+  .motion-link:hover{background:#E8491F}
+
+  body.reel-mode{background:#05070C;overflow:hidden}
+  body.reel-mode::before,body.reel-mode::after{display:none!important}
+  body.reel-mode .board,body.reel-mode .board-foot{display:none!important}
+
+  .motion-stage{position:fixed;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:#03050A;z-index:9999}
+  .motion-stage .m-scene{position:absolute;inset:0;visibility:hidden;z-index:1}
+  .motion-stage .m-cam{position:absolute;inset:0;transform-origin:50% 42%;will-change:transform}
+  .motion-stage .m-scene .frame{position:absolute;inset:0;display:flex;flex-direction:column;padding:0 74px}
+  .motion-stage .m-scene .frame>.safe,
+  .motion-stage .m-scene .frame>.tc,
+  .motion-stage .m-scene .frame>.who,
+  .motion-stage .m-scene .frame>.shot,
+  .motion-stage .m-scene .frame>.prog{display:none!important}
+
+  /* ambient light + drift grid, painted above each scene's background */
+  .m-amb{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .m-amb .m-glow{position:absolute;border-radius:50%;filter:blur(110px);opacity:.24}
+  .m-amb .m-glow.a{width:760px;height:760px;left:-300px;top:20px;background:#FF5B2E}
+  .m-amb .m-glow.b{width:820px;height:820px;right:-340px;top:620px;background:#2F6BD8}
+  .m-amb .m-grid{position:absolute;left:-25%;top:-18%;width:150%;height:136%;
+    background-image:radial-gradient(rgba(246,241,231,.6) 1.4px,transparent 1.4px);
+    background-size:42px 42px;opacity:.14;will-change:transform;
+    -webkit-mask-image:radial-gradient(58% 44% at 50% 38%,#000,transparent 78%);
+    mask-image:radial-gradient(58% 44% at 50% 38%,#000,transparent 78%)}
+  .m-amb .m-scan{position:absolute;top:-20%;left:-45%;width:40%;height:140%;will-change:transform;
+    background:linear-gradient(96deg,transparent,rgba(255,255,255,.06) 44%,rgba(255,255,255,.13) 50%,rgba(255,255,255,.06) 56%,transparent)}
+  .frame.note .m-amb .m-glow{opacity:.12}
+  .frame.note .m-amb .m-grid{background-image:radial-gradient(rgba(14,20,32,.5) 1.4px,transparent 1.4px);opacity:.09}
+
+  /* nothing readable sits below y=1500 — Instagram owns the bottom 20% */
+  .motion-stage .frame .bignum{top:auto;bottom:1010px;right:-8px;font-size:370px;letter-spacing:-20px}
+  .m-scrim{position:absolute;left:0;right:0;bottom:0;height:920px;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(5,7,12,0),rgba(5,7,12,.26) 42%,rgba(5,7,12,.76))}
+  .frame.note .m-scrim{display:none}
+
+  .m-kicker{position:relative;z-index:4;display:flex;align-items:center;gap:16px;margin-top:210px;
+    font-family:var(--mono);font-size:18px;letter-spacing:4.2px;text-transform:uppercase;
+    color:rgba(246,241,231,.72)}
+  .m-kicker i{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--coral);box-shadow:0 0 18px rgba(255,91,46,.7)}
+  .m-kicker b{font-weight:600;color:var(--coral);letter-spacing:3.6px}
+  .m-kicker .m-count{margin-left:auto;opacity:.4;letter-spacing:2.6px;font-size:15px}
+  .frame.note .m-kicker{color:rgba(14,20,32,.6)}
+
+  .m-visual{position:relative;z-index:2;flex:0 0 auto;height:620px;margin-top:26px}
+  .m-visual>.scene{position:absolute;left:50%;top:0;transform:translateX(-50%);width:700px;height:560px}
+  .m-visual>.phone{position:absolute;left:50%;top:6px;width:640px;margin:0 0 0 -320px}
+
+  /* copy sits directly above the Instagram / Facebook username + caption band */
+  .m-copy{position:relative;z-index:4;margin-top:auto;padding-bottom:440px}
+  .m-rule{width:104px;height:5px;background:var(--coral);margin-bottom:26px;transform-origin:left center;
+    box-shadow:0 0 26px rgba(255,91,46,.35)}
+  .motion-stage .m-scene .line{margin:0;font-size:82px;line-height:1.045;letter-spacing:-3.2px;font-weight:790;
+    text-shadow:0 10px 44px rgba(5,7,12,.5)}
+  .motion-stage .m-scene .frame.note .line{font-size:66px;letter-spacing:-2.2px;text-shadow:none}
+
+  /* shared editorial panel behind the artwork — one grammar for every dark scene */
+  .m-panel{position:absolute;left:50%;top:0;width:700px;height:560px;margin-left:-350px;z-index:0;
+    border:1px solid rgba(246,241,231,.09);border-radius:2px;pointer-events:none;
+    background:linear-gradient(180deg,rgba(246,241,231,.05) 0%,rgba(246,241,231,0) 46%,rgba(3,5,10,.22) 100%)}
+  .m-panel:before{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(246,241,231,.055) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(246,241,231,.055) 1px,transparent 1px);
+    background-size:70px 70px;
+    -webkit-mask-image:radial-gradient(72% 62% at 50% 42%,#000,transparent 84%);
+    mask-image:radial-gradient(72% 62% at 50% 42%,#000,transparent 84%)}
+  .m-panel .c{position:absolute;width:24px;height:24px;border:1px solid rgba(255,91,46,.55)}
+  .m-panel .c.tl{left:-1px;top:-1px;border-right:0;border-bottom:0}
+  .m-panel .c.br{right:-1px;bottom:-1px;border-left:0;border-top:0}
+  .m-panel .tag{position:absolute;left:20px;bottom:16px;font-family:var(--mono);font-size:12px;
+    letter-spacing:2.6px;font-weight:500;color:rgba(246,241,231,.34);text-transform:uppercase}
+
+  /* persistent credit line, immediately above the platform UI */
+  .m-meta{display:flex;align-items:center;gap:16px;font-family:var(--mono);font-size:15px;
+    letter-spacing:2.6px;text-transform:uppercase;color:rgba(246,241,231,.4);
+    border-top:1px solid rgba(246,241,231,.13);padding-top:16px;margin-bottom:20px}
+  .m-meta b{font-weight:500;color:rgba(246,241,231,.72)}
+  .m-meta i{font-style:normal;color:rgba(255,91,46,.85)}
+  .frame.note .m-meta{color:rgba(14,20,32,.45);border-top-color:rgba(14,20,32,.16)}
+  .frame.note .m-meta b{color:rgba(14,20,32,.72)}
+
+  /* maths texture baked into each frame (scenes 1–7) so PNG scenes + video match */
+  .reel-sym-layer{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+    -webkit-mask-image:radial-gradient(98% 94% at 50% 46%,#000 0%,#000 60%,rgba(0,0,0,.42) 100%);
+    mask-image:radial-gradient(98% 94% at 50% 46%,#000 0%,#000 60%,rgba(0,0,0,.42) 100%)}
+  .reel-sym{position:absolute;font-family:var(--mono);font-weight:600;line-height:1;white-space:nowrap;
+    text-shadow:0 0 28px rgba(255,91,46,.10);transform-origin:50% 50%;
+    will-change:transform,opacity,filter}
+  .reel-eq{position:absolute;font-family:var(--mono);font-weight:400;line-height:1;white-space:nowrap;
+    letter-spacing:.6px;transform-origin:0 50%;will-change:transform,opacity,filter}
+  /* in motion the texture sits above the scrim so it never gets crushed to black */
+  .motion-stage .m-scene .reel-sym-layer{z-index:1}
+  .motion-stage .m-scene .s8-contact{margin-top:26px!important;font-size:19px!important;
+    letter-spacing:2.6px!important;line-height:1.72!important}
+  .motion-stage .m-scene .note .s8-contact{color:rgba(14,20,32,.8)}
+
+  /* chat extras */
+  .motion-stage .chat .out{position:relative;padding-bottom:36px}
+  .m-ticks{position:absolute;right:16px;bottom:9px;font-family:var(--mono);font-size:15px;letter-spacing:-2px;opacity:0}
+  .m-typing{align-self:flex-start;display:flex;gap:7px;padding:17px 22px;border-radius:22px;
+    border-bottom-left-radius:6px;background:rgba(255,255,255,.09);opacity:0}
+  .m-typing span{width:9px;height:9px;border-radius:50%;background:rgba(246,241,231,.8);display:block}
+
+  /* overlays */
+  .m-grain{position:absolute;inset:0;z-index:6;pointer-events:none;background-image:var(--noise);
+    background-size:220px 220px;opacity:.14;mix-blend-mode:soft-light}
+  .m-vignette{position:absolute;inset:0;z-index:7;pointer-events:none;
+    background:radial-gradient(80% 70% at 50% 45%,rgba(0,0,0,0) 40%,rgba(0,0,0,.35) 100%);mix-blend-mode:multiply}
+  .m-wipe{position:absolute;left:0;top:0;height:100%;width:140px;z-index:6;pointer-events:none;opacity:0;
+    background:linear-gradient(90deg,rgba(255,91,46,0),rgba(255,91,46,.65),rgba(255,255,255,.12),rgba(255,91,46,0))}
+  .m-prog-track{position:absolute;left:0;top:0;height:5px;width:100%;background:rgba(246,241,231,.12);z-index:8}
+  .m-prog{position:absolute;left:0;top:0;height:5px;width:100%;background:var(--coral);
+    transform-origin:left center;z-index:9;box-shadow:0 0 18px rgba(255,91,46,.6)}
+  .motion-stage::after{content:"";position:absolute;inset:0;z-index:7;pointer-events:none;
+    background:
+      linear-gradient(180deg,rgba(3,5,10,.92) 0%,rgba(3,5,10,0) 10%,rgba(3,5,10,0) 78%,rgba(3,5,10,.96) 100%),
+      radial-gradient(120% 78% at 50% 40%,rgba(0,0,0,0) 48%,rgba(0,0,0,.46) 100%)}
+  .motion-stage::before{content:"";position:absolute;left:0;right:0;top:0;height:72px;z-index:8;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0))}
+  .m-prem-flare{position:absolute;right:-220px;top:180px;width:900px;height:900px;border-radius:50%;z-index:2;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,255,255,.06) 0%,rgba(120,170,255,.05) 28%,rgba(255,91,46,.03) 48%,rgba(0,0,0,0) 70%);
+    filter:blur(18px);mix-blend-mode:screen}
+  .m-prem-letter{position:absolute;left:0;right:0;height:54px;z-index:8;pointer-events:none;background:rgba(0,0,0,.38)}
+  .m-prem-letter.top{top:0}
+  .m-prem-letter.bot{bottom:0;height:64px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.55))}
+  .m-ln{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+  .m-ln-i{display:block;will-change:transform}
+
+  /* ---------- system ---------- */
+  .sys{display:flex;gap:20px;flex-wrap:wrap}
+  .sw{border-radius:4px;padding:26px 28px;min-width:250px;flex:1;display:flex;flex-direction:column;gap:8px;
+    box-shadow:0 18px 40px -24px rgba(58,40,20,.6)}
+  .sw .sw-k{font-family:var(--mono);font-size:11.5px;letter-spacing:2.4px;opacity:.7}
+  .sw b{font-size:27px;letter-spacing:-.7px;font-weight:700;margin-top:22px}
+  .sw .sw-n{font-size:13.5px;opacity:.72;line-height:1.5}
+  .card{background:#fff;border:1px solid rgba(14,20,32,.12);border-radius:4px;padding:28px 30px;flex:1;min-width:300px;
+    box-shadow:0 18px 40px -28px rgba(58,40,20,.55)}
+  .card .card-k{font-family:var(--mono);font-size:11.5px;letter-spacing:2.6px;color:var(--coral);margin-bottom:16px}
+  .card ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .card li{font-size:15.5px;line-height:1.55;padding-left:18px;position:relative;color:#3D3A34}
+  .card li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;background:var(--coral);border-radius:50%}
+  .spec-aa{display:flex;align-items:flex-end;gap:18px;margin-bottom:14px}
+  .spec-aa b{font-size:96px;font-weight:800;letter-spacing:-6px;line-height:.78}
+  .spec-aa span{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:#8B8375;line-height:1.9;padding-bottom:6px}
+  .scale{display:flex;flex-direction:column;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:1.6px;color:#6E685D}
+  .scale i{font-style:normal;color:var(--ink)}
+  .tone{display:flex;flex-direction:column;gap:12px}
+  .tone div{display:flex;gap:10px;font-size:14.5px;line-height:1.5}
+  .tone b{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;color:#8B8375;min-width:52px;padding-top:4px}
+  .tone .no{color:#8B8375}
+
+  .board-foot{display:flex;justify-content:space-between;gap:24px;margin-top:76px;padding-top:22px;border-top:1px solid rgba(14,20,32,.16);font-family:var(--mono);font-size:11.5px;letter-spacing:2.4px;color:#8B8375}
+  .board-foot b{color:var(--ink);font-weight:600}
+
+</style>
+</head>
+<body>
+
+<!-- vector maths symbols — referenced with <use> across the reel artwork -->
+<svg width="0" height="0" style="position:absolute;left:-9999px;top:0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ms-int" viewBox="0 0 60 160"><path d="M45 12C32 12 27 23 27 39V121C27 139 22 148 10 152" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
+    <symbol id="ms-sum" viewBox="0 0 100 160"><path d="M14 16H86L48 80L86 144H14" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="ms-pi" viewBox="0 0 100 160"><path d="M12 36C36 31 64 31 88 36M31 36V146M69 36V146" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
+    <symbol id="ms-root" viewBox="0 0 120 160"><path d="M8 92H28L44 150L78 22H114" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="ms-delta" viewBox="0 0 100 160"><path d="M50 22L88 142H12Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/></symbol>
+    <symbol id="ms-theta" viewBox="0 0 100 160"><ellipse cx="50" cy="80" rx="27" ry="58" fill="none" stroke="currentColor" stroke-width="6"/><path d="M23 80H77" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></symbol>
+    <symbol id="ms-inf" viewBox="0 0 140 100"><path d="M8 50C8 27 34 27 50 50C66 73 92 73 92 50C92 27 66 27 50 50C34 73 8 73 8 50Z" fill="none" stroke="currentColor" stroke-width="6"/></symbol>
+    <symbol id="ms-angle" viewBox="0 0 120 160"><path d="M14 148H108M14 148L96 28" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M58 148A48 48 0 0 0 51 116" fill="none" stroke="currentColor" stroke-width="4"/></symbol>
+    <symbol id="ms-curve" viewBox="0 0 120 160"><path d="M12 132H110M34 150V12" fill="none" stroke="currentColor" stroke-width="4"/><path d="M20 138C46 34 78 34 106 138" fill="none" stroke="currentColor" stroke-width="6"/></symbol>
+    <symbol id="ms-circle" viewBox="0 0 120 160"><circle cx="60" cy="80" r="56" fill="none" stroke="currentColor" stroke-width="5"/><path d="M60 80H112" stroke="currentColor" stroke-width="4"/><circle cx="60" cy="80" r="4" fill="currentColor"/></symbol>
+    <symbol id="ms-tri" viewBox="0 0 120 160"><path d="M16 142H104M104 142V34" fill="none" stroke="currentColor" stroke-width="5"/><path d="M104 126H88V142" fill="none" stroke="currentColor" stroke-width="3"/></symbol>
+    <symbol id="ms-plusminus" viewBox="0 0 120 160"><path d="M60 20V84M28 52H92M28 120H92" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
+    <symbol id="ms-vector" viewBox="0 0 120 160"><path d="M16 142L100 26" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M100 26L76 32M100 26L90 48" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></symbol>
+    <symbol id="ms-sine" viewBox="0 0 140 100"><path d="M8 50C26 8 42 8 60 50C78 92 94 92 112 50C118 40 124 36 132 36" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></symbol>
+    <symbol id="ms-matrix" viewBox="0 0 120 160"><path d="M28 18H10V142H28M92 18H110V142H92" fill="none" stroke="currentColor" stroke-width="6"/><circle cx="46" cy="60" r="4" fill="currentColor"/><circle cx="74" cy="60" r="4" fill="currentColor"/><circle cx="46" cy="100" r="4" fill="currentColor"/><circle cx="74" cy="100" r="4" fill="currentColor"/></symbol>
+    <symbol id="ms-div" viewBox="0 0 120 160"><path d="M34 80H86" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><circle cx="60" cy="42" r="6" fill="currentColor"/><circle cx="60" cy="118" r="6" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+<!-- shared illustration: same tutor, same face, every asset -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="portrait" viewBox="0 0 360 360">
+    <circle cx="200" cy="140" r="116" fill="#FF5B2E"/>
+    <circle cx="200" cy="140" r="138" fill="none" stroke="#F6F1E7" stroke-width="1" opacity=".22"/>
+    <path d="M40 360 C40 288 96 246 180 246 C264 246 320 288 320 360 Z" fill="#F6F1E7"/>
+    <path d="M148 246 L180 292 L212 246 Z" fill="#12968C"/>
+    <rect x="154" y="196" width="52" height="58" fill="#E7DBC6"/>
+    <circle cx="112" cy="166" r="13" fill="#EFE4D0"/>
+    <circle cx="248" cy="166" r="13" fill="#EFE4D0"/>
+    <path d="M112 158 C112 96 138 72 180 72 C222 72 248 96 248 158 C248 208 220 240 180 240 C140 240 112 208 112 158 Z" fill="#F6F1E7"/>
+    <path d="M112 158 C112 208 140 240 180 240 C158 232 138 210 134 172 Z" fill="#E9DDC9"/>
+    <path d="M110 154 C108 92 136 64 180 64 C224 64 252 92 250 154 C242 126 222 112 180 112 C138 112 118 126 110 154 Z" fill="#0E1420"/>
+    <rect x="126" y="148" width="46" height="36" rx="11" fill="none" stroke="#0E1420" stroke-width="4"/>
+    <rect x="188" y="148" width="46" height="36" rx="11" fill="none" stroke="#0E1420" stroke-width="4"/>
+    <path d="M172 164 h16 M126 162 h-14 M234 162 h14" stroke="#0E1420" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="149" cy="167" r="4.5" fill="#0E1420"/>
+    <circle cx="211" cy="167" r="4.5" fill="#0E1420"/>
+    <path d="M136 140 q13 -6 26 0 M204 140 q13 -6 26 0" stroke="#0E1420" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M180 172 v20 q0 7 9 7" stroke="#0E1420" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M162 212 q18 11 36 0" stroke="#0E1420" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <g fill="#0E1420" opacity=".14">
+      <circle cx="310" cy="250" r="4"/><circle cx="326" cy="266" r="4"/><circle cx="294" cy="266" r="4"/>
+      <circle cx="310" cy="282" r="4"/><circle cx="294" cy="298" r="4"/><circle cx="326" cy="298" r="4"/>
+    </g>
+  </symbol>
+</svg>
+
+<div class="board">
+<div class="board-head">
+  <div>
+    <div class="eyebrow">DESIGN SYSTEM · SOCIAL KIT · V2</div>
+    <h2>Er. Rohit Vishwakarma<br><em>Creative Kit 02</em></h2>
+    <p>1-on-1 maths for international families · UAE · KSA · Qatar · Australia · Singapore</p>
+  </div>
+  <div class="tag">
+    CAROUSEL 6 × 1080²<br>
+    LINKEDIN 1200² + BANNER<br>
+    REEL 8 × 1080 × 1920<br>
+    <b>NO PRICE PAGE</b>
+  </div>
+</div>
+
+<div class="spec-strip">
+  <div>FORMAT<b>6 slides · 1080²</b></div>
+  <div>FUNNEL<b>fear → why → fix</b></div>
+  <div>PROOF<b>one real tutor</b></div>
+  <div>SINGLE CTA<b>free 35–40 min demo</b></div>
+  <div class="hot">REMOVED<b>no price · no packages</b></div>
+</div>
+<!-- ==================== CAROUSEL ==================== -->
+<div class="sec" style="margin-top:0">
+  <div class="sec-label">01 / INSTAGRAM–FACEBOOK CAROUSEL <em>6 slides · 1080 × 1080 · fear → why → fix → proof → offer → one action</em></div>
+  <div class="row">
+
+    <!-- S1 -->
+    <div class="fit" style="width:529px;height:529px">
+      <div style="transform:scale(.49)">
+        <div class="slide sq dark s1">
+          <div class="s1-rings"><span></span><span></span><span></span></div>
+          <div class="s1-glow"></div>
+          <div class="kicker">01 — THE FEAR</div>
+          <div class="h1">Your child's<br>not slow.<br><span class="dim">Just</span><br><em>invisible.</em></div>
+          <div class="accent"></div>
+          <div class="body">40 minutes. 30 students. One teacher.<br>Some children are never asked a single question.</div>
+          <svg class="s1-art" viewBox="0 0 380 300" aria-hidden="true">
+            <defs>
+              <pattern id="seats" width="42" height="42" patternUnits="userSpaceOnUse">
+                <circle cx="13" cy="13" r="7.5" fill="#F6F1E7" opacity=".26"/>
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="252" height="210" fill="url(#seats)" stroke="rgba(246,241,231,.14)" stroke-width="1"/>
+            <circle cx="223" cy="97" r="21" fill="none" stroke="#FF5B2E" stroke-width="2.5" stroke-dasharray="7 7"/>
+            <path d="M223 74 V50 H252" stroke="#FF5B2E" stroke-width="1.5" opacity=".85" fill="none"/>
+            <text x="258" y="55" fill="#FF5B2E" font-family="Cascadia Mono, monospace" font-size="14" letter-spacing="2">NEVER ASKED</text>
+            <text x="0" y="248" fill="rgba(246,241,231,.52)" font-family="Cascadia Mono, monospace" font-size="13.5" letter-spacing="2.4">30 SEATS · 40 MIN · 1 TEACHER</text>
+          </svg>
+          <div class="foot"><span>ER. ROHIT VISHWAKARMA</span><span>SAVE · SWIPE →</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="fit" style="width:529px;height:529px">
+      <div style="transform:scale(.49)">
+        <div class="slide sq cream s2">
+          <div class="kicker">02 — WHY IT HAPPENS</div>
+          <div class="h1 sm">Behind doesn't<br>happen in a day.</div>
+          <ol>
+            <li>A question your child was too shy to ask.</li>
+            <li>A topic that moved on without them.</li>
+            <li>A whole term spent nodding along.</li>
+          </ol>
+          <svg class="chart" viewBox="0 0 900 168" aria-hidden="true">
+            <text x="700" y="22" font-family="Cascadia Mono, monospace" font-size="13" letter-spacing="2" fill="rgba(14,20,32,.35)">CONFIDENCE</text>
+            <path d="M8 30 H300 L300 62 H560 L560 100 H892" stroke="#0E1420" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <line x1="0" y1="132" x2="900" y2="132" stroke="rgba(14,20,32,.25)" stroke-width="1.5"/>
+            <path d="M300 62 V132 M560 100 V132" stroke="rgba(14,20,32,.2)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+            <circle cx="300" cy="62" r="9" fill="#FF5B2E"/>
+            <circle cx="560" cy="100" r="9" fill="#FF5B2E"/>
+            <g font-family="Cascadia Mono, monospace" font-size="14" letter-spacing="2" fill="rgba(14,20,32,.55)">
+              <text x="8" y="158">TERM 1</text>
+              <text x="310" y="158">TERM 2</text>
+              <text x="570" y="158">TERM 3</text>
+              <text x="766" y="158" fill="#FF5B2E">TEST DAY →</text>
+            </g>
+          </svg>
+          <div class="body">It builds quietly. Then one test makes it visible.</div>
+          <div class="foot"><span>ER. ROHIT VISHWAKARMA</span><span>02 / 06</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="fit" style="width:529px;height:529px">
+      <div style="transform:scale(.49)">
+        <div class="slide sq light s3">
+          <div class="kicker">03 — THE FIX</div>
+          <div class="h1 sm">One student.<br>One tutor.<br><em>Three times a week.</em></div>
+          <div class="s3-scope"><span>SCOPE</span>KINDERGARTEN TO GRADE 10</div>
+          <div class="s3-diagram">
+            <div class="s3-panel">
+              <div class="s3-h"><span>A CLASSROOM</span><span>40 MIN</span></div>
+              <div class="class">
+                <div class="dots">
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i class="kid"></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <div class="tutor"><i class="tsq">T</i><em>1 TUTOR</em></div>
+              </div>
+              <div class="s3-f">30 STUDENTS · 1 TEACHER</div>
+            </div>
+            <div class="vs">VS</div>
+            <div class="s3-panel alt">
+              <div class="s3-h"><span>OUR SESSION</span><span>40–50 MIN</span></div>
+              <div class="orbit">
+                <svg viewBox="0 0 240 216" aria-hidden="true">
+                  <circle cx="120" cy="104" r="95" fill="none" stroke="#12968C" stroke-width="1.5" stroke-dasharray="3 9" opacity=".38"/>
+                  <circle cx="120" cy="104" r="58" fill="none" stroke="#12968C" stroke-width="1.5" stroke-dasharray="5 8" opacity=".45"/>
+                  <g stroke="#12968C" stroke-width="2.2" stroke-linecap="round" opacity=".4">
+                    <path d="M184 104 H196"/>
+                    <path d="M165.3 149.3 L173.7 157.7"/>
+                    <path d="M120 168 V180"/>
+                    <path d="M74.7 149.3 L66.3 157.7"/>
+                    <path d="M56 104 H44"/>
+                    <path d="M74.7 58.7 L66.3 50.3"/>
+                    <path d="M165.3 58.7 L173.7 50.3"/>
+                  </g>
+                  <circle cx="120" cy="104" r="86" fill="none" stroke="#12968C" stroke-width="11"/>
+                  <circle cx="120" cy="104" r="30" fill="#FF5B2E"/>
+                  <text x="120" y="111" text-anchor="middle" font-size="20" fill="#2A0E05">S</text>
+                  <circle cx="120" cy="18" r="16.5" fill="#12968C"/>
+                  <text x="120" y="24.5" text-anchor="middle" font-size="15" fill="#04211F">T</text>
+                </svg>
+              </div>
+              <div class="s3-f">1 STUDENT · 1 TUTOR</div>
+            </div>
+          </div>
+          <div class="chips"><span class="chip"><i></i>NO CROWDED CLASSES</span><span class="chip"><i></i>1-ON-1 &amp; PERSONALISED</span><span class="chip"><i></i>LEARN AT YOUR CHILD'S PACE</span></div>
+          <div class="body">Every session starts with:<br>“What didn't make sense this week?”</div>
+          <div class="foot"><span>ER. ROHIT VISHWAKARMA</span><span>03 / 06</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- S4 -->
+    <div class="fit" style="width:529px;height:529px">
+      <div style="transform:scale(.49)">
+        <div class="slide sq cream s4">
+          <div class="kicker">04 — THE TUTOR</div>
+          <div class="h1 sm">Same person.<br>Every session.</div>
+          <div class="s4-card">
+            <div class="s4-info">
+              <div>
+                <div class="s4-k">1-ON-1 MATH · ONLINE</div>
+                <div class="s4-name">Er. Rohit<br>Vishwakarma</div>
+                <div class="s4-cred">
+                  <span class="s4-c">B.TECH &amp; M.TECH · GRADUATE OF</span>
+                  <b class="s4-v teal">IIIT ALLAHABAD</b>
+                </div>
+                <div class="s4-cred">
+                  <span class="s4-c">EX-SDE · FORMERLY AT</span>
+                  <b class="s4-v steel">SAMSUNG</b>
+                </div>
+                <div class="s4-cred">
+                  <span class="s4-c">NOW · MATH EXPERT AT</span>
+                  <b class="s4-v coral">BHANZU</b>
+                </div>
+              </div>
+              <div>
+                <div class="s4-body">Not a rotating cast of substitutes. The tutor who remembers what broke last week.</div>
+                <div class="s4-note">TEACHES WITH VISUAL ANALOGIES<br><span style="color:var(--coral)">MORE ABOUT ME → LINKEDIN</span></div>
+              </div>
+            </div>
+            <div class="s4-figwrap">
+              <span class="s4-glow"></span>
+              <img class="s4-photo" src="assets/photos/tutor-cutout.png" alt="Er. Rohit Vishwakarma">
+            </div>
+          </div>
+          <div class="foot"><span>ONLY TRUE CREDENTIALS</span><span>04 / 06</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="fit" style="width:529px;height:529px">
+      <div style="transform:scale(.49)">
+        <div class="slide sq light s5">
+          <div class="kicker">05 — THE DEMO EXPERIENCE</div>
+          <div class="h1 sm">What your child <em>and you</em><br>experience in the demo.</div>
+          <div class="body" style="font-size:25px;margin-top:22px">Thirty-five minutes. One tutor, one student, one real problem — worked through together, with you watching.</div>
+          <ol>
+            <li><span>01</span>Your child solves the problem and explains their thinking.</li>
+            <li><span>02</span>You see exactly where understanding breaks and how it’s rebuilt.</li>
+            <li><span>03</span>You both leave with clarity, a plan, and the next steps.</li>
+          </ol>
+          <div class="ticket">
+            <div class="big">35<small>MIN</small></div>
+            <div class="meta">LIVE DEMO EXPERIENCE<br>STUDENT + PARENT + TUTOR<br>ONLINE · ANY TIME ZONE</div>
+            <div class="seal">LIVE<br>SESSION</div>
+          </div>
+          <div class="s5-after">A real session, not a sales pitch — so you can feel how learning<br>clicks before deciding anything.</div>
+          <div class="foot"><span>DEMO EXPERIENCE · 1-ON-1</span><span>05 / 06</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6 -->
+    <div class="fit" style="width:529px;height:529px">
+      <div style="transform:scale(.49)">
+        <div class="slide sq dark s6">
+          <div class="dots-bg"></div>
+          <div class="ghost">1:1</div>
+          <div class="kicker" style="color:var(--coral);opacity:1">06 — NEXT STEP</div>
+          <div class="h1 sm">Try a free<br>35-minute<br>demo.</div>
+          <div class="body" style="font-size:25px;margin-top:24px;opacity:.65">One tutor. One student.<br>Your child's real homework — nothing staged.</div>
+          <div class="s6-cta">
+            <div class="lbl">WHATSAPP TO BOOK</div>
+            <div class="num">+91 91941 34507</div>
+          </div>
+          <div class="risk"><span>NO CONTRACT</span><span>CLEAR FEE</span></div>
+          <div class="s6-micro">
+            <span><b>SAVE</b> THIS POST</span>
+            <span><b>SHARE</b> WITH A PARENT WHO NEEDS IT</span>
+          </div>
+          <div class="foot"><span>ER. ROHIT VISHWAKARMA</span><span>1-ON-1 MATH · ONLINE</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ==================== LINKEDIN ==================== -->
+<div class="sec">
+  <div class="sec-label">02 / LINKEDIN — FOUNDER-LED <em>your face, your name, first person · people trust people, not stock photos</em></div>
+  <div class="row">
+
+    <div class="fit" style="width:504px;height:504px">
+      <div style="transform:scale(.42)">
+        <div class="li">
+          <div class="li-fig">
+            <svg viewBox="0 0 360 360" preserveAspectRatio="xMidYMax meet"><use href="#portrait"/></svg>
+            <div class="li-figcap">[ YOUR PHOTO ]</div>
+          </div>
+          <div>
+            <div class="k">FOUNDER · ER. ROHIT VISHWAKARMA</div>
+            <h1>I teach maths<br>1-on-1.<br><em>No crowded</em><br>classes.</h1>
+            <p>I kept meeting children who were quiet in class and behind at home — not because they couldn't do maths, but because nobody had time to find where it broke.</p>
+            <p>So I teach one student at a time. Three sessions a week. We start with what didn't make sense.</p>
+          </div>
+          <div class="sig">
+            <div><b>Er. Rohit Vishwakarma</b><span>FOUNDER · 1-ON-1 MATHS</span></div>
+            <div class="cta">WHATSAPP / CALL<br>+91 91941 34507</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div class="fit" style="width:713px;height:178px">
+        <div style="transform:scale(.45)">
+          <div class="banner">
+            <div class="meta">ER. ROHIT VISHWAKARMA<br>1-ON-1 MATHS</div>
+            <h1>Maths, one student at a time.</h1>
+            <p>3 sessions a week · International families · Free 35–40 min demo</p>
+            <svg class="bcurve" viewBox="0 0 600 340" aria-hidden="true">
+              <defs>
+                <linearGradient id="cfill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#FF5B2E" stop-opacity=".38"/>
+                  <stop offset="1" stop-color="#FF5B2E" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(246,241,231,.10)" stroke-width="1" fill="none">
+                <path d="M40 40 V300 H584"/>
+                <path d="M40 92 H584 M40 144 H584 M40 196 H584 M40 248 H584"/>
+                <path d="M94 40 V300 M148 40 V300 M202 40 V300 M256 40 V300 M310 40 V300 M364 40 V300 M418 40 V300 M472 40 V300 M526 40 V300"/>
+              </g>
+              <path d="M40 262 C120 268 150 250 190 210 C230 170 250 120 320 96 C390 72 470 62 584 56 V300 H40 Z" fill="url(#cfill)"/>
+              <path d="M40 262 C120 268 150 250 190 210 C230 170 250 120 320 96 C390 72 470 62 584 56" stroke="#FF5B2E" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <circle cx="320" cy="96" r="8" fill="#F6F1E7"/>
+              <circle cx="320" cy="96" r="17" stroke="#F6F1E7" stroke-width="1.5" opacity=".5" fill="none"/>
+              <g font-family="Cascadia Mono, monospace" font-size="13" letter-spacing="2" fill="rgba(246,241,231,.45)">
+                <text x="44" y="30">CONFIDENCE</text>
+                <text x="482" y="326">WEEKS →</text>
+              </g>
+            </svg>
+            <div class="badge"><i></i>3× / WEEK · 1:1</div>
+          </div>
+        </div>
+      </div>
+      <div class="cap" style="max-width:700px;font-size:15px">
+        <b>PROFILE CHECKLIST</b>
+        Headline: “1-on-1 maths tutor for international families · 3 sessions/week” · Banner above · About = the paragraph from the ad, first person · Featured = demo booking link · Only real credentials.
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- ==================== REEL ==================== -->
+<div class="sec">
+  <div class="sec-label">03 / REEL STORYBOARD <em>8 scenes · 1080 × 1920 · 41-second cut</em><a class="motion-link" href="#motion" onclick="location.hash='motion';location.reload();return false">▶ PLAY MOTION REEL</a></div>
+  <div class="row tight">
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g1">
+            <div class="safe"></div>
+            <div class="bignum">1</div>
+            <div class="tc"><span>S1</span><span>0:00–0:04.8</span></div>
+            <div class="who">SIREN HOOK</div>
+            <div class="scene">
+              <svg viewBox="0 0 560 440" fill="none">
+                <rect x="86" y="16" width="388" height="396" rx="3" fill="rgba(246,241,231,.045)" stroke="rgba(246,241,231,.28)" stroke-width="2"/>
+                <path d="M474 16 h-34 l34 34 Z" fill="rgba(246,241,231,.1)" stroke="rgba(246,241,231,.18)" stroke-width="1.5"/>
+                <text x="112" y="54" fill="rgba(246,241,231,.42)" font-family="monospace" font-size="12" letter-spacing="2">MATH · UNIT TEST</text>
+                <rect x="382" y="34" width="64" height="26" rx="2" stroke="rgba(255,91,46,.6)" stroke-width="1.5" fill="rgba(255,91,46,.06)"/>
+                <text x="414" y="52" text-anchor="middle" fill="#FF5B2E" font-family="monospace" font-size="13" font-weight="700">4 / 20</text>
+                <g font-family="monospace" font-size="24" fill="rgba(246,241,231,.62)">
+                  <text x="112" y="130">3x + 7 = 19</text>
+                  <text x="112" y="192">5(x − 2) = 15</text>
+                  <text x="112" y="254">x² − 9 = 0</text>
+                </g>
+                <g stroke="rgba(246,241,231,.12)" stroke-width="1.5">
+                  <path d="M112 148 H336 M112 210 H336 M112 272 H300"/>
+                </g>
+                <g stroke="#FF5B2E" stroke-width="4" stroke-linecap="round" opacity=".92">
+                  <path d="M112 108 L248 150"/>
+                  <path d="M248 108 L112 150"/>
+                </g>
+                <g transform="translate(348 236) rotate(22)">
+                  <rect x="0" y="0" width="16" height="152" fill="#F6F1E7" opacity=".9"/>
+                  <rect x="0" y="0" width="16" height="20" fill="#FF5B2E"/>
+                  <path d="M0 152 L8 179 L16 152 Z" fill="#0E1420" stroke="#F6F1E7" stroke-width="2"/>
+                </g>
+                <text x="452" y="340" text-anchor="middle" font-family="monospace" font-size="56" fill="rgba(255,91,46,.16)">?</text>
+                <circle cx="466" cy="88" r="30" stroke="#FF5B2E" stroke-width="2" stroke-dasharray="6 8" opacity=".7"/>
+              </svg>
+            </div>
+            <div class="line">Your child isn't failing math.<br><em>Just disappearing in it.</em></div>
+            <div class="shot">SHOT: close on a blank page, pencil stops.<br>VO: one line only. No logo yet.</div>
+            <i class="prog" style="--n:10"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>01 · Hook</b>Pattern interrupt. Hard cut on the last word.</div>
+    </div>
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g2">
+            <div class="safe"></div>
+            <div class="bignum">2</div>
+            <div class="tc"><span>S2</span><span>0:04.8–0:10.2</span></div>
+            <div class="who">THE CHILD'S FEAR</div>
+            <div class="scene">
+              <svg viewBox="0 0 560 440" fill="none">
+                <text x="34" y="40" font-family="monospace" font-size="10.5" letter-spacing="2.2" fill="rgba(246,241,231,.3)">CLASS OF 42 · ONE CHILD</text>
+                <path d="M232 0 L404 0 L420 300 L216 300 Z" fill="rgba(246,241,231,.04)"/>
+                <rect x="36" y="268" width="488" height="126" rx="10" fill="rgba(246,241,231,.03)" stroke="rgba(246,241,231,.2)" stroke-width="2"/>
+                <path d="M36 332 H524" stroke="rgba(246,241,231,.1)" stroke-width="1.5"/>
+                <g opacity=".28">
+                  <circle cx="98" cy="210" r="16" fill="#F6F1E7"/>
+                  <path d="M78 268 c0-20 9-30 20-30s20 10 20 30" stroke="#F6F1E7" stroke-width="2.5"/>
+                  <circle cx="182" cy="210" r="16" fill="#F6F1E7"/>
+                  <path d="M162 268 c0-20 9-30 20-30s20 10 20 30" stroke="#F6F1E7" stroke-width="2.5"/>
+                  <circle cx="462" cy="210" r="16" fill="#F6F1E7"/>
+                  <path d="M442 268 c0-20 9-30 20-30s20 10 20 30" stroke="#F6F1E7" stroke-width="2.5"/>
+                </g>
+                <!-- main child -->
+                <circle cx="318" cy="196" r="24" fill="rgba(246,241,231,.92)"/>
+                <path d="M286 205c10-18 20-24 32-24s22 6 32 24" fill="rgba(246,241,231,.92)"/>
+                <path d="M286 268c0-34 14-54 32-54s32 20 32 54" fill="rgba(246,241,231,.86)"/>
+                <rect x="230" y="266" width="176" height="10" rx="5" fill="rgba(246,241,231,.18)"/>
+                <rect x="260" y="276" width="10" height="72" rx="4" fill="rgba(246,241,231,.14)"/>
+                <rect x="366" y="276" width="10" height="72" rx="4" fill="rgba(246,241,231,.14)"/>
+                <!-- hesitant hand, half-raised then fading down -->
+                <path d="M340 230 C360 214 374 198 378 178" stroke="#FF5B2E" stroke-width="7" stroke-linecap="round"/>
+                <circle cx="380" cy="170" r="8" fill="#FF5B2E"/>
+                <path d="M380 178 C376 206 360 228 342 242" stroke="rgba(255,91,46,.45)" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 8"/>
+                <!-- uncertainty cue -->
+                <circle cx="356" cy="186" r="34" stroke="rgba(255,91,46,.42)" stroke-width="1.8" stroke-dasharray="5 7"/>
+                <path d="M356 172 v10" stroke="#FF5B2E" stroke-width="3.2" stroke-linecap="round"/>
+                <circle cx="356" cy="194" r="2.6" fill="#FF5B2E"/>
+              </svg>
+            </div>
+            <div class="line">“Everyone else got it.<br>I didn't ask.”</div>
+            <div class="shot">SHOT: child at desk, hand half-raised,<br>then lowered. No crying.<br>SUB: keep the quote on screen.</div>
+            <i class="prog" style="--n:21.67"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>02 · Fear</b>Let the child say it. Restraint reads as real.</div>
+    </div>
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g3">
+            <div class="safe"></div>
+            <div class="bignum">3</div>
+            <div class="tc"><span>S3</span><span>0:10.2–0:15.1</span></div>
+            <div class="who">PARENT GUILT</div>
+            <div class="scene">
+              <svg viewBox="0 0 560 440" fill="none">
+                <rect x="178" y="44" width="204" height="360" rx="10" fill="rgba(246,241,231,.02)" stroke="rgba(246,241,231,.13)" stroke-width="2"/>
+                <rect x="196" y="26" width="204" height="372" rx="10" fill="rgba(11,17,28,.72)" stroke="rgba(246,241,231,.34)" stroke-width="2.5"/>
+                <rect x="252" y="42" width="92" height="7" rx="3.5" fill="rgba(246,241,231,.26)"/>
+                <g font-family="monospace" fill="rgba(246,241,231,.55)">
+                  <text x="222" y="90" font-size="13" letter-spacing="1.8">TERM REPORT</text>
+                  <text x="222" y="110" font-size="9.5" letter-spacing="1.5" fill="rgba(246,241,231,.32)">TERM 2 · 2025–26</text>
+                  <text x="222" y="156" font-size="14" letter-spacing="1.6">MATH</text>
+                  <text x="222" y="198" font-size="14" letter-spacing="1.6">SCIENCE</text>
+                  <text x="222" y="240" font-size="14" letter-spacing="1.6">ENGLISH</text>
+                </g>
+                <g font-family="monospace" font-size="19" fill="rgba(246,241,231,.5)">
+                  <text x="356" y="156" fill="#FF5B2E" font-weight="700">D</text>
+                  <text x="356" y="198">C</text>
+                  <text x="356" y="240">B</text>
+                </g>
+                <g stroke="rgba(246,241,231,.13)" stroke-width="1.5">
+                  <path d="M222 124 H378 M222 170 H378 M222 212 H378 M222 254 H378"/>
+                </g>
+                <path d="M222 162 H308" stroke="rgba(255,91,46,.6)" stroke-width="2.5"/>
+                <circle cx="365" cy="150" r="17" stroke="rgba(255,91,46,.55)" stroke-width="1.5" stroke-dasharray="4 5"/>
+                <rect x="222" y="286" width="148" height="38" rx="3" stroke="rgba(255,91,46,.65)" stroke-width="1.5" stroke-dasharray="4 5"/>
+                <text x="296" y="310" text-anchor="middle" font-family="monospace" font-size="12.5" letter-spacing="1.6" fill="#FF5B2E">PARENT SIGN</text>
+                <path d="M446 86 L478 146 H414 Z" stroke="#FF5B2E" stroke-width="2.5" fill="rgba(255,91,46,.07)"/>
+                <text x="446" y="133" text-anchor="middle" font-family="monospace" font-size="21" font-weight="700" fill="#FF5B2E">!</text>
+                <path d="M92 356 C138 356 168 338 190 312" stroke="rgba(246,241,231,.22)" stroke-width="2" stroke-dasharray="6 8"/>
+              </svg>
+            </div>
+            <div class="line">I pay for a good school.<br><em>So why is he/she still behind?</em></div>
+            <div class="shot">SHOT: parent in the kitchen, phone in hand,<br>report card on the counter.<br>VO: spoken, not shouted.</div>
+            <i class="prog" style="--n:33.33"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>03 · Guilt</b>Name the fear the buyer already has.</div>
+    </div>
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g4">
+            <div class="safe"></div>
+            <div class="bignum">4</div>
+            <div class="tc"><span>S4</span><span>0:15.1–0:19</span></div>
+            <div class="who">THE TURN</div>
+            <div class="scene">
+              <svg viewBox="0 0 560 440" fill="none">
+                <circle cx="280" cy="200" r="132" fill="rgba(255,91,46,.045)"/>
+                <circle cx="280" cy="206" r="92" stroke="#FF5B2E" stroke-width="2" stroke-dasharray="8 10"/>
+                <circle cx="280" cy="206" r="56" fill="rgba(255,91,46,.14)"/>
+                <path d="M280 96 V138 M280 274 V316 M170 206 H212 M348 206 H390 M202 128 L232 158 M328 254 L358 284 M358 128 L328 158 M232 254 L202 284" stroke="#F6F1E7" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+                <text x="280" y="216" text-anchor="middle" fill="#F6F1E7" font-family="monospace" font-size="19" letter-spacing="2">OH.</text>
+                <circle cx="196" cy="120" r="3.2" fill="#FF5B2E"/>
+                <circle cx="374" cy="150" r="2.6" fill="#FF5B2E"/>
+                <circle cx="332" cy="82" r="2" fill="#F6F1E7" opacity=".6"/>
+                <rect x="226" y="340" width="108" height="48" rx="3" fill="rgba(246,241,231,.05)" stroke="rgba(246,241,231,.2)" stroke-width="1.5"/>
+                <text x="280" y="372" text-anchor="middle" font-family="monospace" font-size="23" letter-spacing="1.5" fill="#4FD1C5">x = 4</text>
+              </svg>
+            </div>
+            <div class="line">“Wait —<br><em>I actually get this.</em>”</div>
+            <div class="shot">SHOT: same child, light change,<br>pen moving. One unscripted smile.<br>AUDIO: room tone drops out.</div>
+            <i class="prog" style="--n:48.33"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>04 · Magic</b>The emotional pivot. Hold 1s longer than comfortable.</div>
+    </div>
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g5">
+            <div class="safe"></div>
+            <div class="bignum">5</div>
+            <div class="tc"><span>S5</span><span>0:19–0:23.9</span></div>
+            <div class="who">THE MESSAGE</div>
+            <div class="phone">
+              <div class="notch"></div>
+              <div class="chat">
+                <div class="ch-head"><i></i><b>ROHIT · MATH TUTOR</b><span>ONLINE</span></div>
+                <div class="ch-day">TODAY</div>
+                <div class="b in">Is he/she too far behind for this?</div>
+                <div class="b out">We start wherever it broke.<br>Demo is free.</div>
+                <div class="b in">Can we do Thursday evening?</div>
+              </div>
+            </div>
+            <div class="line">“We start<br><em>wherever it broke.”</em></div>
+            <div class="shot">SHOT: real chat UI, typed live.<br>VO: none. Let it read.</div>
+            <i class="prog" style="--n:65"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>05 · Proof</b>Show the actual conversation, not a testimonial.</div>
+    </div>
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g6">
+            <div class="safe"></div>
+            <div class="bignum">6</div>
+            <div class="tc"><span>S6</span><span>0:23.9–0:32.1</span></div>
+            <div class="who">MEET YOUR TUTOR</div>
+            <div class="scene s6-scene">
+              <div class="s6-card">
+                <div class="s6-glow"></div>
+                <div class="s6-glow2"></div>
+
+                <span class="s6-ghost" data-f="1" style="left:-30px;top:296px;font-size:200px">x²</span>
+                <span class="s6-ghost" data-f="2" style="right:70px;top:-64px;font-size:240px">∑</span>
+                <span class="s6-ghost" data-f="3" style="left:180px;top:96px;font-size:140px;letter-spacing:-4px">IIIT</span>
+                <span class="s6-ghost" data-f="4" style="right:-46px;top:330px;font-size:120px;letter-spacing:-3px">BHANZU</span>
+
+                <svg class="s6-sym cool" data-f="1" style="left:20px;top:250px;width:40px;height:64px" aria-hidden="true"><use href="#ms-sum"/></svg>
+                <svg class="s6-sym" data-f="2" style="left:256px;top:4px;width:66px;height:88px" aria-hidden="true"><use href="#ms-root"/></svg>
+                <svg class="s6-sym hot" data-f="3" style="left:598px;top:4px;width:46px;height:74px" aria-hidden="true"><use href="#ms-pi"/></svg>
+                <svg class="s6-sym cool" data-f="4" style="right:14px;top:244px;width:70px;height:94px" aria-hidden="true"><use href="#ms-curve"/></svg>
+                <svg class="s6-sym" data-f="1" style="left:470px;top:402px;width:34px;height:54px" aria-hidden="true"><use href="#ms-delta"/></svg>
+                <svg class="s6-sym hot" data-f="2" style="left:330px;top:2px;width:62px;height:44px" aria-hidden="true"><use href="#ms-inf"/></svg>
+                <svg class="s6-sym cool" data-f="3" style="left:404px;top:196px;width:40px;height:54px" aria-hidden="true"><use href="#ms-angle"/></svg>
+                <svg class="s6-sym" data-f="4" style="left:500px;top:400px;width:40px;height:54px" aria-hidden="true"><use href="#ms-circle"/></svg>
+                <svg class="s6-sym" data-f="1" style="left:290px;top:150px;width:26px;height:42px" aria-hidden="true"><use href="#ms-theta"/></svg>
+                <svg class="s6-sym hot" data-f="2" style="right:8px;top:392px;width:74px;height:52px" aria-hidden="true"><use href="#ms-sine"/></svg>
+                <svg class="s6-sym" data-f="3" style="left:790px;top:120px;width:34px;height:46px" aria-hidden="true"><use href="#ms-matrix"/></svg>
+                <svg class="s6-sym cool" data-f="4" style="right:120px;top:64px;width:34px;height:46px" aria-hidden="true"><use href="#ms-tri"/></svg>
+                <svg class="s6-sym" data-f="1" style="left:440px;top:56px;width:34px;height:46px" aria-hidden="true"><use href="#ms-vector"/></svg>
+                <svg class="s6-sym cool" data-f="2" style="left:8px;top:58px;width:28px;height:38px" aria-hidden="true"><use href="#ms-plusminus"/></svg>
+                <svg class="s6-sym" data-f="3" style="left:700px;top:420px;width:26px;height:34px" aria-hidden="true"><use href="#ms-div"/></svg>
+
+                <span class="s6-frag" data-f="1" style="right:36px;top:296px">a² + b² = c²</span>
+                <span class="s6-frag" data-f="2" style="right:56px;top:418px">(x − 2)² = 16</span>
+                <span class="s6-frag" data-f="4" style="left:470px;top:436px">∫ x² dx</span>
+
+                <div class="s6-tick tl"></div>
+                <div class="s6-tick br"></div>
+
+                <div class="s6-photo">
+                  <div class="rim"></div>
+                  <img src="assets/photos/tutor-cutout.png" alt="Er. Rohit Vishwakarma">
+                </div>
+
+                <div class="s6-left">
+                  <div class="s6-fig">FIG. 06 — THE TUTOR</div>
+                  <div class="s6-name"><span>ER.</span><b>ROHIT VISHWAKARMA</b></div>
+
+                  <div class="s6-cred">
+                    <span class="s6-lab">B.TECH &amp; M.TECH · GRADUATE OF</span>
+                    <span class="s6-big teal">IIIT-ALLAHABAD</span>
+                  </div>
+                  <div class="s6-cred">
+                    <span class="s6-lab">EX-SDE · FORMERLY AT</span>
+                    <span class="s6-big steel">SAMSUNG</span>
+                  </div>
+                  <div class="s6-cred">
+                    <span class="s6-lab">NOW · WORKING AT</span>
+                    <span class="s6-big coral">BHANZU</span>
+                  </div>
+
+                  <div class="s6-note">Teaches with visual analogies — explains the why, not just the how.</div>
+                  <div class="s6-tags">
+                    <span class="s6-tag">1-ON-1</span>
+                    <span class="s6-tag">ONLINE</span>
+                    <span class="s6-tag">KINDERGARTEN TO GRADE 10</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="line">The same tutor.<br><em>Every session.</em></div>
+            <div class="shot">SHOT: tutor credibility poster, portrait right.<br>VO: engineer Rohit — ex software developer from Samsung, IIIT Allahabad, Bhanzu.</div>
+            <i class="prog" style="--n:80"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>06 · The tutor</b>Credentials up front — ex-SDE at Samsung, IIIT-Allahabad, Bhanzu — the same tutor every session.</div>
+    </div>
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame g7">
+            <div class="safe"></div>
+            <div class="bignum">7</div>
+            <div class="tc"><span>S7</span><span>0:32.1–0:35.8</span></div>
+            <div class="who">THE RESULT</div>
+            <div class="scene">
+              <svg viewBox="0 0 560 440" fill="none">
+                <rect x="140" y="70" width="280" height="330" rx="8" fill="rgba(246,241,231,.03)" stroke="rgba(246,241,231,.28)" stroke-width="2"/>
+                <path d="M280 70 V400" stroke="rgba(246,241,231,.16)" stroke-width="2"/>
+                <g stroke="rgba(246,241,231,.16)" stroke-width="2">
+                  <path d="M172 140 H252 M172 182 H252 M172 224 H230 M172 266 H246 M172 308 H212"/>
+                </g>
+                <circle cx="366" cy="238" r="44" fill="rgba(23,163,152,.08)"/>
+                <circle cx="366" cy="238" r="58" stroke="rgba(23,163,152,.24)" stroke-width="1.5" stroke-dasharray="5 7"/>
+                <path d="M318 240 L350 274 L420 184" stroke="#17A398" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M424 176 l14 -10 M430 194 l16 -4" stroke="rgba(23,163,152,.55)" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M90 360 C150 360 200 330 240 300" stroke="rgba(255,91,46,.45)" stroke-width="2" stroke-dasharray="6 8"/>
+                <circle cx="452" cy="120" r="26" stroke="rgba(246,241,231,.25)" stroke-width="2" stroke-dasharray="4 6"/>
+              </svg>
+            </div>
+            <div class="line">“I'll do the next one<br>by myself.”</div>
+            <div class="shot">SHOT: child closes the notebook, leaves.<br>SUB: no grades, no scores on screen.</div>
+            <i class="prog" style="--n:90"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>07 · Desire</b>Confidence, not marks. Keeps the promise honest.</div>
+    </div>
+
+    <div class="reel-item">
+      <div class="fit" style="width:196px;height:348px">
+        <div style="transform:scale(.1815)">
+          <div class="frame note">
+            <div class="safe"></div>
+            <div class="bignum">8</div>
+            <div class="tc"><span>S8</span><span>0:35.8–0:41.2</span></div>
+            <div class="who">END CARD</div>
+            <div class="scene">
+              <svg viewBox="0 0 560 440" fill="none">
+                <circle cx="280" cy="200" r="138" fill="rgba(255,91,46,.06)"/>
+                <circle cx="280" cy="200" r="120" stroke="rgba(14,20,32,.12)" stroke-width="1.5" stroke-dasharray="2 9"/>
+                <circle cx="280" cy="200" r="96" stroke="rgba(14,20,32,.25)" stroke-width="2"/>
+                <circle cx="280" cy="200" r="66" stroke="rgba(14,20,32,.2)" stroke-width="1.5" stroke-dasharray="6 8"/>
+                <circle cx="280" cy="200" r="42" fill="#FF5B2E"/>
+                <text x="280" y="217" text-anchor="middle" fill="#0E1420" font-family="Segoe UI, sans-serif" font-size="46" font-weight="800">R</text>
+                <path d="M280 40 V96 M280 304 V360" stroke="rgba(14,20,32,.25)" stroke-width="1.5"/>
+                <path d="M154 74 L178 98 M406 74 L382 98 M154 326 L178 302 M406 326 L382 302" stroke="rgba(255,91,46,.5)" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="line" style="font-size:44px;letter-spacing:-1.4px">Try a free<br><em>35-minute demo.</em></div>
+            <div class="s8-contact" style="font-family:var(--mono);margin-top:24px">
+              <div style="display:flex;align-items:center;gap:16px">
+                <span style="display:inline-flex;align-items:center;gap:12px;background:var(--coral);color:#180A04;font-size:21px;font-weight:700;letter-spacing:2px;padding:14px 20px">WHATSAPP TO BOOK <span style="font-size:22px">→</span></span>
+                <span style="font-size:11.5px;letter-spacing:2px;color:rgba(14,20,32,.55)">35 MIN<br>1-ON-1</span>
+              </div>
+              <div style="font-size:38px;letter-spacing:1.2px;color:#0E1420;margin-top:16px;font-weight:600">+91 91941 34507</div>
+              <div style="display:flex;gap:10px;margin-top:14px">
+                <span style="font-size:11.5px;letter-spacing:2px;border:1px solid rgba(14,20,32,.25);padding:6px 10px;color:rgba(14,20,32,.65)">NO CONTRACT</span>
+                <span style="font-size:11.5px;letter-spacing:2px;border:1px solid rgba(14,20,32,.25);padding:6px 10px;color:rgba(14,20,32,.65)">CLEAR FEE</span>
+              </div>
+              <div style="font-size:11.5px;letter-spacing:1.8px;color:rgba(14,20,32,.45);margin-top:14px">SAME TUTOR EVERY SESSION · ONLINE</div>
+              <div style="font-size:11.5px;letter-spacing:1.8px;color:rgba(14,20,32,.5);margin-top:8px"><b style="color:var(--coral);font-weight:700">SAVE</b> THIS · <b style="color:var(--coral);font-weight:700">SHARE</b> WITH A PARENT WHO NEEDS IT</div>
+            </div>
+            <div class="shot">CTA: WhatsApp / Call<br>+91 91941 34507.</div>
+            <i class="prog" style="--n:100"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>08 · End card</b>One action only. No price on screen.</div>
+    </div>
+
+  </div>
+</div>
+<!-- ==================== SYSTEM ==================== -->
+<div class="sec">
+  <div class="sec-label">04 / THE SYSTEM <em>one palette, one type voice, reused across every country</em></div>
+
+  <div class="sys">
+    <div class="sw" style="background:#0E1420;color:#F6F1E7">
+      <span class="sw-k">INK · STRUCTURE</span>
+      <b>#0E1420</b>
+      <span class="sw-n">Headlines, dark slides, footers</span>
+    </div>
+    <div class="sw" style="background:#F6F1E7;color:#0E1420;border:1px solid rgba(14,20,32,.12)">
+      <span class="sw-k">PAPER · BREATH</span>
+      <b>#F6F1E7</b>
+      <span class="sw-n">Light slides, long copy, air</span>
+    </div>
+    <div class="sw" style="background:#FF5B2E;color:#220B03">
+      <span class="sw-k">SIGNAL · ACTION</span>
+      <b>#FF5B2E</b>
+      <span class="sw-n">One per slide. Never two.</span>
+    </div>
+    <div class="sw" style="background:#12968C;color:#04211F">
+      <span class="sw-k">SOLUTION · CALM</span>
+      <b>#12968C</b>
+      <span class="sw-n">Proof, progress, the child's voice</span>
+    </div>
+    <div class="card" style="min-width:380px;flex:1.35">
+      <div class="card-k">THE RULES</div>
+      <ul>
+        <li><b>No price page.</b> The fee is quoted on the demo call, never on a slide.</li>
+        <li>One idea per slide. If it needs two, it is two slides.</li>
+        <li>Real photo of the real tutor — same crop, every asset.</li>
+        <li>No grade guarantees. No stock “sad child”.</li>
+        <li>Fear first, proof last. Never the reverse.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sys" style="margin-top:20px">
+    <div class="card" style="flex:1.15">
+      <div class="card-k">TYPE VOICE</div>
+      <div class="spec-aa"><b>Aa</b><span>SEGOE UI VARIABLE<br>DISPLAY / BODY</span></div>
+      <div class="scale">
+        <i>104 / −4.6 / DISPLAY — the one line</i>
+        82 / −3.4 / SLIDE HEAD<br>
+        33 / 1.42 / BODY COPY<br>
+        19 / 2.4 / MONO LABELS
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-k">POSTER GRID</div>
+      <svg viewBox="0 0 420 150" style="width:100%;height:104px;display:block;margin-bottom:12px" aria-hidden="true">
+        <rect x="6" y="6" width="408" height="138" fill="none" stroke="rgba(14,20,32,.18)"/>
+        <path d="M48 6 V144 M372 6 V144" stroke="#FF5B2E" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <path d="M48 40 H372 M48 74 H372 M48 108 H372" stroke="rgba(14,20,32,.12)"/>
+        <path d="M160 6 V144 M268 6 V144" stroke="rgba(14,20,32,.25)"/>
+        <g font-family="Cascadia Mono, monospace" font-size="9" letter-spacing="1.4" fill="rgba(14,20,32,.4)">
+          <text x="52" y="22">COL 1</text><text x="164" y="22">COL 2</text><text x="272" y="22">COL 3</text>
+        </g>
+      </svg>
+      <div class="scale">8PT BASELINE · 3 COLUMNS · 78PX MARGIN</div>
+    </div>
+    <div class="card">
+      <div class="card-k">TONE</div>
+      <div class="tone">
+        <div><b>SAY</b>“He/She’s not slow. He/She’s invisible.”</div>
+        <div><b>SAY</b>“We start where it broke.”</div>
+        <div class="no"><b>NEVER</b>“Guaranteed 3 grades higher.”</div>
+        <div class="no"><b>NEVER</b>“Limited seats, book now.”</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="board-foot">
+  <span>ER. ROHIT VISHWAKARMA · CREATIVE KIT · V2</span>
+  <span><b>NO PRICE PAGE</b> · NO PACKAGES · NO GUARANTEES</span>
+  <span>ONE IDEA PER SLIDE</span>
+</div>
+</div>
+
+<script>
+/* Bake a faint maths texture into scenes 1–7.
+   It lives in the storyboard markup, so the exact same layer ships in the
+   2× PNG scene images, the 4K exports and the 41-second MP4. Scene 8 stays clean. */
+(function () {
+  var frames = [].slice.call(document.querySelectorAll('.reel-item .frame'));
+  if (frames.length !== 8) return;
+
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  var GLYPH = ['+', '−', '×', '÷', '=', '≈', '≠', '≤', '≥', '√', 'π', '∑', 'Δ',
+               '∞', 'θ', '∠', '½', '²', '³', '%', '∫', '∂', '±', '→'];
+  var FRAG = [
+    ['x² − 9 = 0', '√144 = 12', '3x + 7 = 19'],
+    ['1 : 42', '∠ABC = 90°', 'x = ?'],
+    ['4 / 20', 'P(A) = 1 / 8', '−12'],
+    ['x = 4', '(x − 2)² = 16', '√(a² + b²)'],
+    ['2x + 5 = 17', 'πr² · h', 'Q & A'],
+    ['48 + 27 = 75', 'a² + b² = c²', '1,000 − 487'],
+    ['100%', 'x → ∞', 'A +'],
+    []
+  ];
+
+  frames.forEach(function (frame, i) {
+    if (i > 6 || frame.classList.contains('note')) return;
+
+    var layer = document.createElement('div');
+    layer.className = 'reel-sym-layer';
+    var r = rng(9041 + i * 617);
+
+    function motionData(el, a, size, rot) {
+      el.style.opacity = a.toFixed(3);
+      el.setAttribute('data-a', a.toFixed(3));
+      el.setAttribute('data-r', rot.toFixed(1));
+      el.setAttribute('data-dx', Math.round(-56 + r() * 112));
+      el.setAttribute('data-dy', Math.round(-110 + r() * 74));
+      el.setAttribute('data-sc', (1.08 + r() * 0.24).toFixed(2));
+      el.setAttribute('data-m', size);
+      el.setAttribute('data-d', (r() * 0.9).toFixed(2));
+      el.style.transform = 'rotate(' + rot + 'deg)';
+    }
+
+    /* quiet equation annotations, tucked into the margins */
+    (FRAG[i] || []).forEach(function (txt, k) {
+      var eq = document.createElement('span');
+      eq.className = 'reel-eq';
+      eq.textContent = txt;
+      var size = 19 + Math.floor(r() * 10);
+      var a = 0.09 + r() * 0.05;
+      var rot = -2.6 + r() * 5.2;
+      eq.style.fontSize = size + 'px';
+      eq.style.color = 'rgb(246,241,231)';
+      eq.style.filter = 'blur(' + (1 + r() * 1).toFixed(2) + 'px)';
+      if (k === 0) {
+        eq.style.left = (6 + r() * 5) + '%';
+        eq.style.top = (2.3 + r() * 1.3) + '%';
+      } else if (k === 1) {
+        eq.style.right = (6 + r() * 5) + '%';
+        eq.style.top = (3.2 + r() * 1.8) + '%';
+      } else {
+        eq.style.right = (1.5 + r() * 2.4) + '%';
+        eq.style.top = (61 + r() * 9) + '%';
+      }
+      /* equations only drift — never pulse like the loose glyphs */
+      motionData(eq, a, 0, rot);
+      eq.setAttribute('data-m', '0');
+      layer.appendChild(eq);
+    });
+
+    /* scattered glyphs: out of focus, never readable, never centred on the art */
+    for (var k = 0; k < 13; k++) {
+      var el = document.createElement('span');
+      el.className = 'reel-sym';
+      el.textContent = GLYPH[Math.floor(r() * GLYPH.length)];
+
+      var size2 = 24 + Math.floor(r() * 74);
+      var x, y;
+      if (k < 4) {                        /* top strip, above the kicker */
+        x = 2 + r() * 94; y = 1.6 + r() * 8;
+      } else if (k < 8) {                 /* lower third, behind the copy */
+        x = 1 + r() * 96; y = 55 + r() * 22;
+      } else if (k < 11) {                /* side margins, flanking the artwork */
+        x = r() < 0.5 ? 0.5 + r() * 9 : 88 + r() * 11;
+        y = 20 + r() * 48;
+      } else {                            /* soft bokeh, deep background */
+        x = 3 + r() * 90; y = 12 + r() * 62; size2 = 96 + Math.floor(r() * 72);
+      }
+
+      var tint = r();
+      var a2 = k >= 11 ? 0.05 + r() * 0.03 : 0.10 + r() * 0.08;
+      el.style.fontSize = size2 + 'px';
+      el.style.left = x.toFixed(2) + '%';
+      el.style.top = y.toFixed(2) + '%';
+      el.style.filter = 'blur(' + (k >= 11 ? 2.2 + r() * 1.5 : 0.8 + r() * 1.2).toFixed(2) + 'px)';
+      el.style.color = tint < 0.62 ? 'rgb(246,241,231)'
+                     : tint < 0.86 ? 'rgb(255,91,46)'
+                     : 'rgb(79,209,197)';
+      motionData(el, a2, 1 + Math.floor(r() * 3), -26 + r() * 52);
+      layer.appendChild(el);
+    }
+
+    frame.insertBefore(layer, frame.firstChild);
+  });
+})();
+</script>
+<style>
+  /* export mode: only used by the headless PNG exporter (see exports/export-pngs.ps1) */
+  body.export-mode{background:#fff}
+  body.export-mode::before,body.export-mode::after{display:none!important}
+  body.export-mode .board{visibility:hidden!important}
+  body.export-mode .board-foot{display:none!important}
+</style>
+<script>
+(function () {
+  var m = /^#export(?:=([a-z0-9]+))?$/i.exec(location.hash);
+  if (!m) return;
+  var key = (m[1] || 's1').toLowerCase(), el = null;
+  if (key === 'li') el = document.querySelector('.li');
+  else if (key === 'banner') el = document.querySelector('.banner');
+  else if (/^s[1-6]$/.test(key)) el = document.querySelectorAll('.slide')[Number(key[1]) - 1];
+  else if (/^r[1-8]$/.test(key)) el = document.querySelectorAll('.frame')[Number(key[1]) - 1];
+  if (!el) return;
+  document.body.classList.add('export-mode');
+  var clone = el.cloneNode(true);
+  clone.removeAttribute('style');
+  clone.style.cssText = 'position:fixed;left:0;top:0;margin:0;transform:none;box-shadow:none;border-radius:0;z-index:9999';
+  document.body.appendChild(clone);
+  document.title = 'export ' + key;
+})();
+</script>
+<script>
+(function () {
+  var m = /^#motion(?:=(capture|play))?(?:&.*)?$/i.exec(location.hash);
+  if (!m) return;
+  var capture = (m[1] || '').toLowerCase() === 'capture';
+
+  var allFrames = [].slice.call(document.querySelectorAll('.reel-item .frame'));
+  var PICK = [0, 3, 5, 6, 7];   /* S1, S4, S6, S7, S8 from the master cut */
+  var srcFrames = PICK.map(function (k) { return allFrames[k]; });
+  if (srcFrames.length !== 5 || srcFrames.some(function (f) { return !f; })) return;
+
+  var TOTAL = 23.8;
+  var T = [0, 3.8, 7.7, 14.7, 18.4, 23.8];
+  var RANGE = ['0:00–0:03.8', '0:03.8–0:07.7', '0:07.7–0:14.7',
+               '0:14.7–0:18.4', '0:18.4–0:23.8'];
+  /* regional hook copy + phrase timing, keyed by the #hook= hash */
+  var HASHM = /hook=(sg-gcc|au)/.exec(location.hash || '');
+  var VARIANT = HASHM ? HASHM[1] : 'neutral';
+  var HOOK_COPY = {
+    neutral: null,
+    'sg-gcc': 'RIGOUR THAT STICKS.<br><em>Exam-ready. Conceptual mastery.</em>',
+    au: 'CALM CONFIDENCE.<br><em>One tutor. One child.</em>'
+  };
+  var MICRO = {
+    neutral: 'QUESTIONS NEVER GET ASKED',
+    'sg-gcc': 'EX-SDE · SAMSUNG · IIIT',
+    au: 'NO MATHS ANXIETY'
+  };
+  /* narration phrase starts, relative to each scene start — measured from the VO WAVs */
+  var BEATS = [
+    [0.18, 1.56, 2.00],                  /* S1 hook — not slow / invisible / micro-beat */
+    [0.28, 2.24],                        /* S4 turn — one moment / finally get it */
+    [0.15, 2.20, 3.01, 5.52],            /* S6 tutor — name / Samsung / IIIT / Bhaanzu */
+    [0.28, 1.69],                        /* S7 confidence */
+    [0.28, 1.58, 3.42, 4.42]             /* S8 CTA */
+  ];
+  var VO_END = [3.42, 3.55, 6.88, 3.33, 5.15];
+  if (VARIANT === 'sg-gcc') { BEATS[0] = [0.18, 1.23, 2.00]; VO_END[0] = 3.66; }
+  if (VARIANT === 'au')     { BEATS[0] = [0.18, 1.76, 2.00]; VO_END[0] = 3.62; }
+  var EASE = 'cubic-bezier(.16,1,.3,1)';
+  var SOFT = 'cubic-bezier(.22,.61,.36,1)';
+  var POP  = 'cubic-bezier(.34,1.24,.46,1)';
+  var LIN  = 'linear';
+
+  var anims = [];
+  var scenes = [];
+
+  document.body.classList.add('reel-mode');
+  var stage = document.createElement('div');
+  stage.className = 'motion-stage';
+  document.body.appendChild(stage);
+
+  var track = document.createElement('div');
+  track.className = 'm-prog-track';
+  stage.appendChild(track);
+  var wipe = document.createElement('div');
+  wipe.className = 'm-wipe';
+  stage.appendChild(wipe);
+  var grain = document.createElement('div');
+  grain.className = 'm-grain';
+  stage.appendChild(grain);
+  var vign = document.createElement('div');
+  vign.className = 'm-vignette';
+  stage.appendChild(vign);
+
+  var flare = document.createElement('div');
+  flare.className = 'm-prem-flare';
+  stage.appendChild(flare);
+  var lt = document.createElement('div'); lt.className = 'm-prem-letter top';
+  var lb = document.createElement('div'); lb.className = 'm-prem-letter bot';
+  stage.appendChild(lt); stage.appendChild(lb);
+
+  function A(el, kf, at, dur, ease, opt) {
+    if (!el) return null;
+    var cfg = {
+      duration: Math.max(1, dur * 1000),
+      delay: at * 1000,
+      easing: ease || EASE,
+      fill: 'both'
+    };
+    if (opt) { for (var k in opt) cfg[k] = opt[k]; }
+    var a = el.animate(kf, cfg);
+    a.pause();
+    anims.push(a);
+    return a;
+  }
+  function split(el) {
+    if (!el || el.getAttribute('data-split')) return el;
+    var parts = el.innerHTML.split(/<br\s*\/?>/i);
+    el.innerHTML = parts.map(function (p) {
+      return '<span class="m-ln"><span class="m-ln-i">' + p + '</span></span>';
+    }).join('');
+    el.setAttribute('data-split', '1');
+    return el;
+  }
+  function linesIn(el, at, step, dur) {
+    if (!el) return;
+    [].forEach.call(el.querySelectorAll('.m-ln-i'), function (s, k) {
+      A(s, [
+        { transform: 'translateY(112%) rotate(1.1deg)' },
+        { transform: 'translateY(0) rotate(0deg)' }
+      ], at + k * (step || 0.11), dur || 0.72, EASE);
+    });
+  }
+  function pop(el, at, dur, start) {
+    if (!el) return;
+    el.style.transformBox = 'fill-box';
+    el.style.transformOrigin = 'center';
+    A(el, [
+      { opacity: 0, transform: 'scale(' + (start || 0.55) + ')' },
+      { opacity: 1, transform: 'scale(1.07)' },
+      { opacity: 1, transform: 'scale(1)' }
+    ], at, dur || 0.48, POP);
+  }
+  function fade(el, at, dur) {
+    A(el, [{ opacity: 0 }, { opacity: 1 }], at, dur || 0.45, 'ease-out');
+  }
+  function draw(el, at, dur) {
+    try {
+      var len = el.getTotalLength();
+      if (!len) return false;
+      el.style.strokeDasharray = len + ' ' + len;
+      A(el, [
+        { strokeDashoffset: len },
+        { strokeDashoffset: 0 }
+      ], at, dur || 0.75, SOFT);
+      return true;
+    } catch (e) { return false; }
+  }
+  function march(el, at, dur, dist) {
+    if (!el) return;
+    A(el, [
+      { strokeDashoffset: '0px' },
+      { strokeDashoffset: (-(dist || 80)) + 'px' }
+    ], at, dur, LIN);
+  }
+  function typeText(el, at, step) {
+    if (!el) return;
+    var txt = el.textContent, ns = 'http://www.w3.org/2000/svg';
+    el.textContent = '';
+    for (var c = 0; c < txt.length; c++) {
+      var ts = document.createElementNS(ns, 'tspan');
+      ts.textContent = txt[c] === ' ' ? '\u00A0' : txt[c];
+      el.appendChild(ts);
+      A(ts, [{ opacity: 0 }, { opacity: 1 }], at + c * (step || 0.05), 0.02, LIN);
+    }
+  }
+  function byText(svg, txt) {
+    var found = null;
+    [].forEach.call(svg.querySelectorAll('text'), function (el) {
+      if (!found && el.textContent.trim() === txt) found = el;
+    });
+    return found;
+  }
+
+  /* deterministic helpers removed here — texture is baked into the storyboard markup */
+  var PANEL_TAG = ['FIG. 01 — THE PROBLEM', 'FIG. 04 — THE SHIFT',
+                   'FIG. 06 — THE METHOD', 'FIG. 07 — THE PROOF', ''];
+
+  /* float the baked maths texture: drift, breathe, rise, parallax — all out of focus */
+  function animateSymbols(frame, S, D, i) {
+    var syms = frame.querySelectorAll('.reel-sym, .reel-eq');
+    var dur = Math.max(2.2, D - 0.3);
+    [].forEach.call(syms, function (el, k) {
+      var rot = parseFloat(el.getAttribute('data-r')) || 0;
+      var a = parseFloat(el.getAttribute('data-a')) || 0.08;
+      var dx = parseFloat(el.getAttribute('data-dx')) || 0;
+      var dy = parseFloat(el.getAttribute('data-dy')) || 0;
+      var sc = parseFloat(el.getAttribute('data-sc')) || 1.12;
+      var mode = parseInt(el.getAttribute('data-m'), 10) || 0;
+      var delay = parseFloat(el.getAttribute('data-d')) || 0;
+      /* texture crests on a narration phrase — the pulse peaks at the spoken beat */
+      var b = BEATS[i];
+      var t0 = S + b[k % b.length] - dur * 0.36 +
+               Math.floor(k / b.length) * 0.12 + delay;
+      var r2 = rot + 7;
+
+      if (mode === 1) {
+        /* breathe — swell into focus, then slowly enlarge and dim */
+        A(el, [
+          { opacity: 0, transform: 'rotate(' + rot + 'deg) scale(' + (1 / sc).toFixed(3) + ')' },
+          { opacity: a, transform: 'rotate(' + rot + 'deg) scale(1)', offset: 0.34 },
+          { opacity: a * 0.42, transform: 'rotate(' + r2 + 'deg) scale(' + sc + ')' }
+        ], t0, dur, 'ease-in-out');
+      } else if (mode === 2) {
+        /* rise — float up out of the dark, fade at both ends */
+        A(el, [
+          { opacity: 0, transform: 'translate3d(0,' + Math.abs(dy) + 'px,0) rotate(' + rot + 'deg) scale(.88)' },
+          { opacity: a, transform: 'translate3d(0,0,0) rotate(' + rot + 'deg) scale(1)', offset: 0.34 },
+          { opacity: 0, transform: 'translate3d(' + Math.round(dx * 0.3) + 'px,' + Math.round(-Math.abs(dy) * 0.85) + 'px,0) rotate(' + r2 + 'deg) scale(' + sc + ')' }
+        ], t0, dur, 'ease-in-out');
+      } else if (mode === 3) {
+        /* parallax — slide across the frame with a soft pulse */
+        A(el, [
+          { opacity: 0, transform: 'translate3d(' + (-dx) + 'px,0,0) rotate(' + rot + 'deg) scale(1.06)' },
+          { opacity: a, transform: 'translate3d(0,0,0) rotate(' + rot + 'deg) scale(1)', offset: 0.4 },
+          { opacity: a * 0.55, transform: 'translate3d(' + dx + 'px,' + Math.round(dy * 0.35) + 'px,0) rotate(' + r2 + 'deg) scale(.94)' }
+        ], t0, dur, 'ease-in-out');
+      } else {
+        /* drift — slow diagonal travel, fading up then down */
+        A(el, [
+          { opacity: 0, transform: 'translate3d(0,0,0) rotate(' + rot + 'deg) scale(1)' },
+          { opacity: a, transform: 'translate3d(' + Math.round(dx * 0.45) + 'px,' + Math.round(dy * 0.32) + 'px,0) rotate(' + (rot + 3) + 'deg) scale(1.03)', offset: 0.42 },
+          { opacity: 0, transform: 'translate3d(' + dx + 'px,' + dy + 'px,0) rotate(' + r2 + 'deg) scale(' + sc + ')' }
+        ], t0, dur, 'ease-in-out');
+      }
+    });
+  }
+
+  function animateShapes(frame, S, D, i) {
+    var svg = frame.querySelector('.scene svg');
+    if (!svg) return;
+    var nodes = [].slice.call(svg.querySelectorAll('path, circle, rect, text'));
+    var order = 0;
+
+    nodes.forEach(function (el) {
+      var tag = el.tagName.toLowerCase();
+      var cs = getComputedStyle(el);
+      var stroke = cs.stroke, fill = cs.fill;
+      var dash = el.getAttribute('stroke-dasharray');
+      /* each SVG beat rides the narration phrase of the same index */
+      var b = BEATS[i];
+      var at = S + b[Math.min(order, b.length - 1)] +
+               (order >= b.length ? (order - b.length + 1) * 0.08 : 0);
+      order++;
+
+      if (tag === 'path') {
+        if (i === 1 && el.getAttribute('stroke') === '#F6F1E7') {
+          /* the eight light rays — burst out from the centre */
+          el.style.transformBox = 'fill-box';
+          el.style.transformOrigin = 'center';
+          A(el, [
+            { opacity: 0, transform: 'scale(.22)' },
+            { opacity: .75, transform: 'scale(1.16)' },
+            { opacity: .75, transform: 'scale(1)' }
+          ], S + BEATS[1][1], 0.68, POP);
+          return;
+        }
+        if (dash) { fade(el, at, 0.42); march(el, at + 0.14, Math.max(2.0, D - 0.8), 90); return; }
+        if (stroke !== 'none' && draw(el, at, 0.75)) {
+          if (i === 3 && el.getAttribute('stroke') === '#17A398') {
+            A(el, [{ strokeWidth: 7 }, { strokeWidth: 13 }, { strokeWidth: 7 }],
+              S + BEATS[3][1], 0.95, 'ease-out', { iterations: 2 });
+          }
+          return;
+        }
+        if (fill !== 'none' && stroke === 'none') { pop(el, at); return; }
+        fade(el, at, 0.6);
+        return;
+      }
+
+      if (tag === 'circle') {
+        if (dash) {
+          fade(el, at, 0.55);
+          el.style.transformBox = 'fill-box';
+          el.style.transformOrigin = 'center';
+          A(el, [
+            { transform: 'rotate(0deg)' },
+            { transform: 'rotate(' + (i === 1 ? 150 : 40) + 'deg)' }
+          ], S + 0.35, D, LIN);
+          return;
+        }
+        if (fill === 'none') { fade(el, at, 0.6); return; }
+        pop(el, at);
+        return;
+      }
+
+      if (tag === 'rect') {
+        if (dash) { fade(el, at, 0.6); return; }
+        if (stroke !== 'none') { fade(el, at, 0.7); return; }
+        pop(el, at);
+        return;
+      }
+
+      var txt = el.textContent.trim();
+      if (i === 0 && txt.indexOf('3x') === 0) { typeText(el, at, 0.075); return; }
+      if (i === -1 && txt === 'TERM REPORT') { typeText(el, at, 0.032); return; }
+      if (i === -1 && txt === 'PARENT SIGN') { typeText(el, at, 0.04); return; }
+      if (i === -1 && /^[DCB]$/.test(txt)) { pop(el, at, 0.5, 0.35); return; }
+      if (i === -1 && txt === '!') { pop(el, at, 0.5, 0.2); return; }
+      if (i === 1 && txt === 'OH.') { pop(el, S + BEATS[1][1] + 0.08, 0.55, 0.25); return; }
+      if (i === 4 && txt === 'R') { pop(el, at, 0.6, 0.3); return; }
+      A(el, [
+        { opacity: 0, transform: 'translateY(14px)' },
+        { opacity: 1, transform: 'none' }
+      ], at, 0.6, 'ease-out');
+    });
+  }
+
+  srcFrames.forEach(function (src, i) {
+    var S = T[i], E = T[i + 1], D = E - S;
+    var b = BEATS[i], b0 = b[0], b1 = b.length > 1 ? b[1] : b0 + 0.6;
+
+    var scene = document.createElement('div');
+    scene.className = 'm-scene';
+    var cam = document.createElement('div');
+    cam.className = 'm-cam';
+    var frame = src.cloneNode(true);
+
+    var whoEl = frame.querySelector('.who');
+    var label = whoEl ? whoEl.textContent.trim() : 'SCENE';
+    var sceneNo = PICK[i] + 1;
+    var ix = ('0' + sceneNo).slice(-2);
+
+    /* strip storyboard chrome — this is a finished reel, not an animatic */
+    ['.safe', '.shot', '.prog', '.tc', '.who'].forEach(function (sel) {
+      var el = frame.querySelector(sel);
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    });
+
+    /* ambient layer inside the frame, so it paints over the scene background */
+    var amb = document.createElement('div');
+    amb.className = 'm-amb';
+    amb.innerHTML = '<div class="m-glow a"></div><div class="m-glow b"></div>' +
+                    '<div class="m-grid"></div><div class="m-scan"></div>';
+    frame.insertBefore(amb, frame.firstChild);
+
+    var scrim = document.createElement('div');
+    scrim.className = 'm-scrim';
+    frame.insertBefore(scrim, amb.nextSibling);
+
+    /* float the baked maths texture (scenes 1–7 only) */
+    if (i < 7) animateSymbols(frame, S, D, i);
+
+    /* top kicker: scene tag + label + counter */
+    var kicker = document.createElement('div');
+    kicker.className = 'm-kicker';
+    kicker.innerHTML = '<i></i><b>S' + sceneNo + '</b><span>' + label + '</span>' +
+                       '<span class="m-count">' + ix + ' / 08</span>';
+
+    /* visual block */
+    var visual = frame.querySelector('.scene, .phone');
+    var vwrap = document.createElement('div');
+    vwrap.className = 'm-visual';
+    if (visual && visual.parentNode) {
+      visual.parentNode.removeChild(visual);
+      vwrap.appendChild(visual);
+    }
+
+    /* one shared editorial panel frames every dark line-art scene */
+    if (visual && visual.classList.contains('scene') && !frame.classList.contains('note') && i !== 2) {
+      var panel = document.createElement('div');
+      panel.className = 'm-panel';
+      panel.innerHTML = '<span class="c tl"></span><span class="c br"></span>' +
+                        '<b class="tag">' + PANEL_TAG[i] + '</b>';
+      vwrap.insertBefore(panel, vwrap.firstChild);
+      A(panel.querySelector('.tag'), [{ opacity: 0 }, { opacity: .95 }], S + b1, 0.8, 'ease-out');
+    }
+
+    /* copy deck — rule + headline + (end card only) contact */
+    var line = frame.querySelector('.line');
+    var contact = frame.querySelector('.s8-contact');
+    /* regional hook: swap opening copy and add the 2s micro-beat */
+    if (i === 0) {
+      if (HOOK_COPY[VARIANT]) line.innerHTML = HOOK_COPY[VARIANT];
+      var micro = document.createElement('div');
+      micro.className = 'm-micro';
+      micro.textContent = MICRO[VARIANT];
+      micro.style.cssText = 'position:absolute;left:74px;right:74px;top:902px;z-index:5;'
+        + 'font-family:var(--mono);font-size:21px;letter-spacing:5px;text-transform:uppercase;'
+        + 'color:var(--coral);opacity:0;text-shadow:0 2px 20px rgba(0,0,0,.9)';
+      frame.appendChild(micro);
+      A(micro, [
+        { opacity: 0, transform: 'translateY(14px)' },
+        { opacity: 1, transform: 'none', offset: .12 },
+        { opacity: 1, transform: 'none', offset: .78 },
+        { opacity: 0, transform: 'translateY(-10px)' }
+      ], S + BEATS[0][2], 1.55, EASE);
+    }
+    var copy = document.createElement('div');
+    copy.className = 'm-copy';
+    var meta = document.createElement('div');
+    meta.className = 'm-meta';
+    meta.innerHTML = frame.classList.contains('note')
+      ? '<b>ER. ROHIT VISHWAKARMA</b><i>·</i><span>FREE 35 MIN DEMO</span>'
+      : '<b>ER. ROHIT VISHWAKARMA</b><i>·</i><span>1-ON-1 MATH · ONLINE</span>';
+    copy.appendChild(meta);
+    var rule = document.createElement('div');
+    rule.className = 'm-rule';
+    copy.appendChild(rule);
+    if (line) {
+      line.removeAttribute('style');
+      if (line.parentNode) line.parentNode.removeChild(line);
+      copy.appendChild(line);
+    }
+    if (contact) {
+      if (contact.parentNode) contact.parentNode.removeChild(contact);
+      copy.appendChild(contact);
+    }
+
+    frame.appendChild(kicker);
+    frame.appendChild(vwrap);
+    frame.appendChild(copy);
+
+    cam.appendChild(frame);
+    scene.appendChild(cam);
+    stage.appendChild(scene);
+    scenes.push(scene);
+
+    /* cuts: the new scene fades in over the old one, so no black frame */
+    A(scene, [{ opacity: 0 }, { opacity: 1 }], i === 0 ? 0 : S - 0.05, 0.10, LIN);
+
+    var camEase = (i === 1 || i === 2) ? 'cubic-bezier(.22,.61,.36,1)' : LIN;
+    var camEnd = (i === 1 ? 1.07 : 1.055);
+    A(cam, [
+      { transform: 'scale(1.012) translateY(0px)' },
+      { transform: 'scale(' + camEnd + ') translateY(-12px)' }
+    ], S, D + 0.15, camEase);
+
+    /* ambient: slow light breathing, drifting grid, one light sweep */
+    A(amb.querySelector('.m-glow.a'), [{ opacity: .16 }, { opacity: .28 }], S, D, 'ease-in-out');
+    A(amb.querySelector('.m-glow.b'), [{ opacity: .24 }, { opacity: .12 }], S, D, 'ease-in-out');
+    A(amb.querySelector('.m-grid'), [
+      { transform: 'translate3d(0,0,0)' },
+      { transform: 'translate3d(-42px,-84px,0)' }
+    ], S, D, LIN);
+    A(amb.querySelector('.m-scan'), [
+      { transform: 'translateX(0) skewX(-14deg)' },
+      { transform: 'translateX(2700px) skewX(-14deg)' }
+    ], S + 0.3, 4.5, LIN, { iterations: Math.max(1, Math.ceil(D / 4.5)) });
+
+    /* ghost numeral */
+    var bn = frame.querySelector('.bignum');
+    if (bn) {
+      A(bn, [{ opacity: 0 }, { opacity: 1 }], S, 0.9, 'ease-out');
+      A(bn, [
+        { transform: 'translateY(44px)' },
+        { transform: 'translateY(-24px)' }
+      ], S, D, LIN);
+    }
+
+    /* kicker + counter */
+    A(kicker, [
+      { opacity: 0, transform: 'translateY(26px)' },
+      { opacity: 1, transform: 'none' }
+    ], S + b0, 0.48, EASE);
+    A(kicker.querySelector('i'), [
+      { opacity: 0, transform: 'scale(0)' },
+      { opacity: 1, transform: 'scale(1)' }
+    ], S + b0 + 0.08, 0.4, POP);
+    A(kicker.querySelector('i'), [
+      { boxShadow: '0 0 0 0 rgba(255,91,46,.55)' },
+      { boxShadow: '0 0 0 16px rgba(255,91,46,0)' }
+    ], S + b0 + 0.15, 1.35, 'ease-out', { iterations: Math.max(1, Math.round(D / 1.35)) });
+    A(kicker.querySelector('.m-count'), [{ opacity: 0 }, { opacity: .45 }], S + b0 + 0.2, 0.6, EASE);
+
+    /* headline rule + masked lines — all keyed to the first spoken phrase */
+    A(meta, [
+      { opacity: 0, transform: 'translateY(14px)' },
+      { opacity: 1, transform: 'none' }
+    ], S + b0, 0.48, EASE);
+    A(rule, [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], S + b0 + 0.05, 0.58, EASE);
+    linesIn(split(line), S + b0 + 0.1, 0.11, 0.72);
+
+    /* visual: rise in, then drift for the rest of the scene (one transform track) */
+    if (visual) {
+      A(vwrap, [
+        { opacity: 0, transform: 'translateY(38px) scale(.962)', offset: 0 },
+        { opacity: 1, transform: 'translateY(0) scale(1)', offset: 0.16 },
+        { opacity: 1, transform: 'translateY(-12px) scale(1.012)', offset: 0.62 },
+        { opacity: 1, transform: 'translateY(0) scale(1)', offset: 1 }
+      ], S + b0 + 0.1, Math.max(1.5, D - 0.3), EASE);
+    }
+
+    animateShapes(frame, S, D, i);
+
+    /* scene-specific logic beats */
+    if (i === 0) {
+      var paper = frame.querySelector('.scene svg rect');
+      A(paper, [
+        { stroke: 'rgba(246,241,231,.3)' },
+        { stroke: 'rgba(255,91,46,.85)' },
+        { stroke: 'rgba(246,241,231,.3)' }
+      ], S + b[2], 1.2, 'ease-in-out');
+    }
+
+    if (i === -1) {
+      var dGrade = byText(frame.querySelector('.scene svg'), 'D');
+      A(dGrade, [
+        { fill: '#FF5B2E' },
+        { fill: '#F6F1E7' },
+        { fill: '#FF5B2E' }
+      ], S + b[1], 1.1, 'ease-in-out', { iterations: 2 });
+    }
+
+    if (i === -1) {
+      var chat = frame.querySelector('.chat');
+      var bubbles = chat ? chat.querySelectorAll('.b') : [];
+      /* the chat lands on the two spoken phrases; the last reply follows the VO */
+      var times = [BEATS[4][0], BEATS[4][1], VO_END[4] + 0.05];
+      [].forEach.call(bubbles, function (bubble, k) {
+        A(bubble, [
+          { opacity: 0, transform: 'translateY(26px) scale(.94)' },
+          { opacity: 1, transform: 'none' }
+        ], S + times[k], 0.42, POP);
+      });
+      if (bubbles[2]) {
+        var typing = document.createElement('div');
+        typing.className = 'm-typing';
+        typing.innerHTML = '<span></span><span></span><span></span>';
+        chat.insertBefore(typing, bubbles[2]);
+        var typingAt = S + BEATS[4][1] + 0.45;
+        A(typing, [
+          { opacity: 0, offset: 0 },
+          { opacity: 1, offset: .14 },
+          { opacity: 1, offset: .84 },
+          { opacity: 0, offset: 1 }
+        ], typingAt, VO_END[4] - BEATS[4][1] - 0.3, LIN);
+        [].forEach.call(typing.querySelectorAll('span'), function (d, k) {
+          A(d, [{ opacity: .3 }, { opacity: 1 }, { opacity: .3 }],
+            typingAt + 0.2 + k * 0.12, 0.55, 'ease-in-out', { iterations: 2 });
+        });
+      }
+      if (bubbles[1]) {
+        var ticks = document.createElement('span');
+        ticks.className = 'm-ticks';
+        ticks.textContent = '✓✓';
+        bubbles[1].appendChild(ticks);
+        A(ticks, [
+          { opacity: 0, transform: 'translateY(6px)' },
+          { opacity: .85, transform: 'none' }
+        ], S + BEATS[4][1] + 0.75, 0.38, EASE);
+      }
+    }
+
+    if (i === 2) {
+      var s6Fig = frame.querySelector('.s6-fig');
+      var s6First = frame.querySelector('.s6-name span');
+      var s6Last = frame.querySelector('.s6-name b');
+      var s6Creds = frame.querySelectorAll('.s6-cred');
+      var s6Note = frame.querySelector('.s6-note');
+      var s6Tags = frame.querySelectorAll('.s6-tag');
+      var s6Photo = frame.querySelector('.s6-photo');
+      var s6Rim = frame.querySelector('.s6-photo .rim');
+
+      var s6Beats = BEATS[2];
+
+      /* the portrait arrives on the introduction — a person, not a poster */
+      A(s6Photo, [
+        { opacity: 0, transform: 'translateY(36px) scale(1.05)' },
+        { opacity: 1, transform: 'none' }
+      ], S + s6Beats[0], 0.9, EASE);
+      if (s6Rim) {
+        A(s6Rim, [
+          { opacity: .25, transform: 'scale(.92)' },
+          { opacity: 1, transform: 'scale(1.06)' }
+        ], S + s6Beats[0] + 0.04, 2.6, 'ease-in-out', { iterations: 3, direction: 'alternate' });
+      }
+
+      fade(s6Fig, S + s6Beats[0], 0.45);
+      A(s6First, [{ opacity: 0, transform: 'translateX(-14px)' }, { opacity: 1, transform: 'none' }],
+        S + s6Beats[0] + 0.08, 0.5, EASE);
+      A(s6Last, [{ opacity: 0, transform: 'translateY(28px)' }, { opacity: 1, transform: 'none' }],
+        S + s6Beats[0] + 0.18, 0.62, EASE);
+
+      /* credentials land in narration order: Samsung, IIIT, Bhaanzu */
+      var credBeats = { 'SAMSUNG': s6Beats[1], 'IIIT-ALLAHABAD': s6Beats[2], 'BHANZU': s6Beats[3] };
+      [].forEach.call(s6Creds, function (c, k) {
+        var big = c.querySelector('.s6-big');
+        var key = big ? big.textContent.trim() : '';
+        var rel = credBeats[key] !== undefined ? credBeats[key] : s6Beats[Math.min(k, s6Beats.length - 1)];
+        var at = S + rel;
+        A(c, [{ opacity: 0, transform: 'translateY(26px)' }, { opacity: 1, transform: 'none' }],
+          at, 0.55, EASE);
+        if (big) {
+          A(big, [
+            { opacity: 0, transform: 'translateX(-22px) scale(.94)' },
+            { opacity: 1, transform: 'none' }
+          ], at + 0.10, 0.66, EASE);
+        }
+      });
+
+      A(s6Note, [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+        S + s6Beats[3] + 0.55, 0.45, 'ease-out');
+      [].forEach.call(s6Tags, function (t, k) {
+        pop(t, S + s6Beats[3] + 0.72 + k * 0.08, 0.36, 0.7);
+      });
+
+      /* every symbol, ghost word and fragment drifts in its own direction */
+      [].forEach.call(frame.querySelectorAll('.s6-sym, .s6-ghost, .s6-frag'), function (el, k) {
+        var drift = (k % 2 ? 1 : -1) * (10 + (k % 3) * 8);
+        var rise = 24 + (k % 4) * 15;
+        var grow = 1.04 + (k % 3) * 0.05;
+        var delay = s6Beats[k % s6Beats.length] + Math.floor(k / s6Beats.length) * 0.12;
+        var peak = el.classList.contains('s6-ghost') ? 1 : 0.92;
+        A(el, [
+          { opacity: 0, transform: 'translate3d(0,' + rise + 'px,0) scale(.96)' },
+          { opacity: peak, transform: 'translate3d(' + (drift * 0.4) + 'px,0,0) scale(1)', offset: 0.34 },
+          { opacity: peak * 0.55, transform: 'translate3d(' + drift + 'px,' + (-rise) + 'px,0) scale(' + grow + ')' }
+        ], S + delay, Math.max(2.6, D - delay + 0.4), 'ease-in-out');
+      });
+    }
+
+    /* end card */
+    if (contact) {
+      linesIn(split(contact), S + b0, 0.13, 0.65);
+      var cta = contact.querySelector('span[style*="coral"]');
+      /* pulse exactly on "WhatsApp me." */
+      A(cta, [
+        { opacity: .6 },
+        { opacity: 1 },
+        { opacity: .6 }
+      ], S + BEATS[4][3], 0.8, 'ease-in-out', { iterations: 2 });
+    }
+  });
+
+  /* one coral sweep across every cut, keyed to the whole timeline */
+  var wf = [{ opacity: 0, transform: 'translateX(-260px) skewX(-10deg)', offset: 0 }];
+  for (var c = 1; c < 5; c++) {
+    wf.push({ opacity: 0, transform: 'translateX(-260px) skewX(-10deg)', offset: Math.max(0.001, (T[c] - 0.05) / TOTAL) });
+    wf.push({ opacity: .9, transform: 'translateX(470px) skewX(-10deg)', offset: T[c] / TOTAL });
+    wf.push({ opacity: 0, transform: 'translateX(1180px) skewX(-10deg)', offset: Math.min(1, (T[c] + 0.05) / TOTAL) });
+  }
+  A(wipe, wf, 0, TOTAL, LIN);
+
+  /* premium flare drift + impact pulses synced to key moments */
+  A(flare, [
+    { transform: 'translate(-40px, 20px) scale(1)', opacity: .55, offset: 0 },
+    { transform: 'translate(30px, -10px) scale(1.08)', opacity: .8, offset: 0.33 },
+    { transform: 'translate(-20px, 30px) scale(1.12)', opacity: .65, offset: 0.66 },
+    { transform: 'translate(20px, -20px) scale(1.05)', opacity: .7, offset: 1 }
+  ], 0, TOTAL, 'ease-in-out');
+  var flash = document.createElement('div');
+  flash.style.cssText = 'position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.22),rgba(255,255,255,0) 55%);opacity:0;mix-blend-mode:screen';
+  stage.insertBefore(flash, vign);
+  [0, T[1], T[2], T[3], T[4]].forEach(function(at) {
+    A(flash, [{opacity:0},{opacity:.55},{opacity:0}], Math.max(0, at - 0.005), 0.10, 'ease-out');
+  });
+
+  /* one continuous progress bar for the whole cut (top, clear of the UI) */
+  var bar = document.createElement('div');
+  bar.className = 'm-prog';
+  stage.appendChild(bar);
+  A(bar, [
+    { transform: 'scaleX(0)' },
+    { transform: 'scaleX(1)' }
+  ], 0, TOTAL, LIN);
+
+  function seek(t) {
+    t = Math.max(0, Math.min(TOTAL - 0.001, t));
+    var ms = t * 1000;
+    for (var i = 0; i < anims.length; i++) anims[i].currentTime = ms;
+    for (var j = 0; j < scenes.length; j++) {
+      var inAt = T[j] - (j === 0 ? 0 : 0.05);
+      scenes[j].style.visibility =
+        (t >= inAt && t < T[j + 1] + 0.05) ? 'visible' : 'hidden';
+    }
+  }
+
+  window.__reel = {
+    duration: TOTAL, fps: 30, ready: true, seek: seek,
+    stage: stage, scenes: scenes, T: T, safeBottom: 1500
+  };
+  seek(0);
+
+  if (!capture) {
+    var t0 = null;
+    var tick = function (ts) {
+      if (t0 === null) t0 = ts;
+      seek(((ts - t0) / 1000) % TOTAL);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>
